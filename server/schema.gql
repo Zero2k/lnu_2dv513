@@ -20,6 +20,7 @@ type Meta {
 }
 
 type Mutation {
+  signIn(input: AuthInput!): UserResponse!
   signUp(input: AuthInput!): UserResponse!
 }
 

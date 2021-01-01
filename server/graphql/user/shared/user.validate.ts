@@ -13,3 +13,8 @@ export const signUpSchema = yup.object().shape({
   email: yup.string().min(5, emailLength).max(255).email(validEmail),
   password: yup.string().min(5, passwordLength).max(255),
 });
+
+export const signInSchema = yup.object().shape({
+  email: yup.string().min(5, emailLength).email(validEmail),
+  password: yup.string().min(5, passwordLength),
+});

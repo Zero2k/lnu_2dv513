@@ -1,7 +1,8 @@
-import { Resolver, Query } from 'type-graphql';
+import { Resolver, Query, Ctx } from 'type-graphql';
 import { User } from '../../../entity/User';
 import { UserService } from '../../../service/user.service';
 import { Inject } from 'typedi';
+import { MyContext } from 'server/types/context';
 
 @Resolver(User)
 export class ProfileResolver {
@@ -9,7 +10,9 @@ export class ProfileResolver {
   userService: UserService;
 
   @Query(() => User)
-  async me(): Promise<User> {
-    return this.userService.findOne();
+  async me(@Ctx() { session }: MyContext): Promise<User> {
+    const user = await this.userService.findById(session.userId!);
+
+    return user;
   }
 }
