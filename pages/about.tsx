@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useStyletron } from 'baseui';
-import Navbar from '../components/Navbar';
 
 const About: React.FC = () => {
   const [css, theme] = useStyletron();

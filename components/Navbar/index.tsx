@@ -8,7 +8,7 @@ import { Back, More } from '../../icons';
 export default function Navbar() {
   const [css] = useStyletron();
   const { asPath, push } = useRouter();
-  const [mainItems] = React.useState<NavItemT[]>([
+  const mainItems = [
     { label: 'Start', info: { link: '/' } },
     { label: 'Om sidan', info: { link: '/about' } },
     { label: 'Återförsäljare', info: { link: '/resellers' } },
@@ -20,11 +20,11 @@ export default function Navbar() {
       children: [
         {
           label: 'Pyrosatser',
-          info: { link: '/products/pyro' },
+          info: { link: '/products/pyrosatser' },
         },
         {
           label: 'Familjesatser',
-          info: { link: '/products/familj' },
+          info: { link: '/products/familjesatser' },
         },
         {
           label: 'Bombtårtor',
@@ -40,11 +40,11 @@ export default function Navbar() {
         },
         {
           label: 'Inomhus & Tomtebloss',
-          info: { link: '/products/innomhus' },
+          info: { link: '/products/innomhus-tomtebloss' },
         },
         {
           label: 'Markpjäser / Airbombs',
-          info: { link: '/products/markpjaser' },
+          info: { link: '/products/markpjaser-airbombs' },
         },
         {
           label: 'Övrigt',
@@ -52,7 +52,7 @@ export default function Navbar() {
         },
       ],
     },
-  ]);
+  ];
 
   const userItems = [
     {
@@ -66,6 +66,17 @@ export default function Navbar() {
     {
       label: 'Logout',
       info: { link: '/logout' },
+    },
+  ];
+
+  const authItems = [
+    {
+      label: 'Logga In',
+      info: { link: '/auth/logga-in' },
+    },
+    {
+      label: 'Skapa Konto',
+      info: { link: '/auth/skapa-konto' },
     },
   ];
 
@@ -95,15 +106,14 @@ export default function Navbar() {
                 color: '#000000',
               })}
             >
-              App
+              PyroLead.com
             </a>
           </Link>
         }
         mainItems={mainItems}
-        userItems={userItems}
+        userItems={true ? authItems : userItems}
         onUserItemSelect={(item) => console.log('user', item)}
-        username="Hello World"
-        usernameSubtitle="5.0"
+        username="PyroLead.com"
         userImgUrl=""
         onMainItemSelect={handleMainItemSelect}
         isMainItemActive={isMainItemActive}
