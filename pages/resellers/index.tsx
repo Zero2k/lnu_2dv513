@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useStyletron } from 'baseui';
+import Section from 'components/Section';
 
 const Resellers: React.FC = () => {
   const [css, theme] = useStyletron();
   return (
     <>
-      <div>Resellers</div>
+      <Section>Resellers</Section>
     </>
   );
 };

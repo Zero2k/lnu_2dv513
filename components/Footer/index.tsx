@@ -7,7 +7,6 @@ const StyledFooter = styled<{}, 'footer'>(
   'footer',
   ({ $theme: { typography, sizing, colors, name } }) => ({
     ...typography.font300,
-    position: 'sticky',
     bottom: 0,
     color: colors.contentPrimary,
     backgroundColor: name.startsWith('light-theme')
