@@ -112,7 +112,6 @@ export default function Navbar() {
         }
         mainItems={mainItems}
         userItems={true ? authItems : userItems}
-        onUserItemSelect={(item) => console.log('user', item)}
         username="PyroLead.com"
         userImgUrl=""
         onMainItemSelect={handleMainItemSelect}
