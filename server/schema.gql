@@ -25,6 +25,16 @@ type Mutation {
   signUp(input: AuthInput!): UserResponse!
 }
 
+type Product {
+  art: Float!
+  createdAt: String!
+  description: String!
+  id: ID!
+  img_url: String!
+  name: String!
+  updatedAt: String!
+}
+
 type Query {
   me: User!
 }
@@ -33,6 +43,7 @@ type User {
   createdAt: String!
   email: String!
   id: ID!
+  products: [Product!]!
   updatedAt: String!
 }
 

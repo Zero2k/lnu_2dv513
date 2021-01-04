@@ -1,10 +1,19 @@
 import { hash } from 'bcryptjs';
-import { Entity, Column, BeforeInsert, AfterLoad, BeforeUpdate } from 'typeorm';
+import {
+  Entity,
+  Column,
+  BeforeInsert,
+  AfterLoad,
+  BeforeUpdate,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import { Meta } from './Meta';
+import { Product } from './Product';
 
 @ObjectType()
-@Entity('users')
+@Entity()
 export class User extends Meta {
   @Field()
   @Column('text', { unique: true })
@@ -18,6 +27,10 @@ export class User extends Meta {
 
   @Column('int', { nullable: true })
   resetPasswordExpires: number | null;
+
+  @ManyToMany(() => Product)
+  @JoinTable()
+  products: Product[];
 
   private tempPassword: string;
 

@@ -39,6 +39,15 @@ export class UserService {
     return user;
   }
 
+  async findProducts(id: number): Promise<User | undefined> {
+    const user = await User.findOne({
+      where: { id },
+      relations: ['products'],
+    });
+
+    return user;
+  }
+
   async checkActiveUserExists(input: { email: string }): Promise<Boolean> {
     const userData = await User.findOne({
       where: { email: input.email },
