@@ -1,6 +1,7 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinTable } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import { Meta } from './Meta';
+import { Category } from './Category';
 
 @ObjectType()
 @Entity()
@@ -20,4 +21,8 @@ export class Product extends Meta {
   @Field()
   @Column('int', { nullable: true })
   art: number | null;
+
+  @ManyToOne(() => Category)
+  @JoinTable()
+  category: Category;
 }

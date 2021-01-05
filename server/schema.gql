@@ -8,6 +8,14 @@ input AuthInput {
   password: String!
 }
 
+type Category {
+  createdAt: String!
+  id: ID!
+  name: String!
+  slug: String!
+  updatedAt: String!
+}
+
 type Error {
   message: String!
   path: String!
