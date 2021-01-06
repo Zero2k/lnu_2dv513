@@ -11,13 +11,34 @@ import {
 import { ObjectType, Field } from 'type-graphql';
 import { Meta } from './Meta';
 import { Product } from './Product';
+import { Role } from '../config/role';
 
 @ObjectType()
 @Entity()
 export class User extends Meta {
   @Field()
+  @Column('text')
+  name: string;
+
+  @Field()
+  @Column('int')
+  phone: number;
+
+  @Field()
   @Column('text', { unique: true })
   email: string;
+
+  @Field()
+  @Column('text')
+  address: string;
+
+  @Field()
+  @Column('int')
+  zip: number;
+
+  @Field()
+  @Column('text')
+  city: string;
 
   @Column('text')
   password: string;
@@ -27,6 +48,9 @@ export class User extends Meta {
 
   @Column('int', { nullable: true })
   resetPasswordExpires: number | null;
+
+  @Column('text', { default: Role.User })
+  role: string;
 
   @ManyToMany(() => Product)
   @JoinTable()
