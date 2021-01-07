@@ -17,11 +17,11 @@ import { Role } from '../config/role';
 @Entity()
 export class User extends Meta {
   @Field()
-  @Column('text')
+  @Column('text', { nullable: true })
   name: string;
 
   @Field()
-  @Column('int')
+  @Column('int', { nullable: true })
   phone: number;
 
   @Field()
@@ -29,27 +29,21 @@ export class User extends Meta {
   email: string;
 
   @Field()
-  @Column('text')
+  @Column('text', { nullable: true })
   address: string;
 
   @Field()
-  @Column('int')
+  @Column('int', { nullable: true })
   zip: number;
 
   @Field()
-  @Column('text')
+  @Column('text', { nullable: true })
   city: string;
 
   @Column('text')
   password: string;
 
-  @Column('text', { nullable: true })
-  resetPasswordToken: string | null;
-
-  @Column('int', { nullable: true })
-  resetPasswordExpires: number | null;
-
-  @Column('text', { default: Role.User })
+  @Column({ type: 'enum', enum: Object.values(Role), default: Role.User })
   role: string;
 
   @ManyToMany(() => Product)

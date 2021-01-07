@@ -16,6 +16,13 @@ type Category {
   updatedAt: String!
 }
 
+input CreateProductInput {
+  art: Float!
+  description: String!
+  img_url: String!
+  name: String!
+}
+
 type Error {
   message: String!
   path: String!
@@ -28,6 +35,7 @@ type Meta {
 }
 
 type Mutation {
+  createProduct(input: CreateProductInput!): ProductResponse!
   logout: Boolean!
   signIn(input: AuthInput!): UserResponse!
   signUp(input: AuthInput!): UserResponse!
@@ -35,6 +43,7 @@ type Mutation {
 
 type Product {
   art: Float!
+  category: Category!
   createdAt: String!
   description: String!
   id: ID!
@@ -43,16 +52,26 @@ type Product {
   updatedAt: String!
 }
 
+type ProductResponse {
+  errors: [Error!]
+  product: Product
+}
+
 type Query {
   me: User!
 }
 
 type User {
+  address: String!
+  city: String!
   createdAt: String!
   email: String!
   id: ID!
+  name: String!
+  phone: Float!
   products: [Product!]!
   updatedAt: String!
+  zip: Float!
 }
 
 type UserResponse {
