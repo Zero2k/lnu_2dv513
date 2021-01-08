@@ -3,15 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type AddProductResponse {
-  errors: [Error!]
-  products: [Product!]
-}
-
-input AddProductsInput {
-  productIds: [Int!]!
-}
-
 input AuthInput {
   email: String!
   password: String!
@@ -37,6 +28,15 @@ type Error {
   path: String!
 }
 
+type HandleProductResponse {
+  errors: [Error!]
+  products: [Product!]
+}
+
+input HandleProductsInput {
+  productIds: [Int!]!
+}
+
 type Meta {
   createdAt: String!
   id: ID!
@@ -44,8 +44,8 @@ type Meta {
 }
 
 type Mutation {
-  addProducts(input: AddProductsInput!): AddProductResponse!
   createProduct(input: CreateProductInput!): ProductResponse!
+  handleProducts(input: HandleProductsInput!): HandleProductResponse!
   logout: Boolean!
   signIn(input: AuthInput!): UserResponse!
   signUp(input: AuthInput!): UserResponse!

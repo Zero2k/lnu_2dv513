@@ -10,7 +10,7 @@ export class AuthInput {
 }
 
 @InputType()
-export class AddProductsInput {
+export class HandleProductsInput {
   @Field(() => [Int])
   productIds: number[];
 }

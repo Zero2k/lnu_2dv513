@@ -13,7 +13,7 @@ export class UserResponse {
 }
 
 @ObjectType()
-export class AddProductResponse {
+export class HandleProductResponse {
   @Field(() => [Product], { nullable: true })
   products?: Product[];
 

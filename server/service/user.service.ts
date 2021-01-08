@@ -17,7 +17,7 @@ export class UserService {
     return userData;
   }
 
-  async addProducts(
+  async handleProducts(
     id: number,
     products: Product[]
   ): Promise<User | undefined> {

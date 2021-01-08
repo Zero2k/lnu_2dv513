@@ -1,26 +1,26 @@
 import { Resolver, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
 import { Product } from '../../../entity/Product';
-import { AddProductsInput } from '../shared/user.input';
-import { AddProductResponse } from '../shared/user.response';
+import { HandleProductsInput } from '../shared/user.input';
+import { HandleProductResponse } from '../shared/user.response';
 import { UserService } from '../../../service/user.service';
 import { ProductService } from '../../../service/product.service';
 import { MyContext } from '../../../types/context';
 import { Inject } from 'typedi';
 
 @Resolver(Product)
-export class AddProductResolver {
+export class HandleProductResolver {
   @Inject(() => UserService)
   userService: UserService;
   @Inject(() => ProductService)
   productService: ProductService;
 
   @Authorized()
-  @Mutation(() => AddProductResponse)
-  async addProducts(
+  @Mutation(() => HandleProductResponse)
+  async handleProducts(
     @Ctx() { session }: MyContext,
     @Arg('input')
-    args: AddProductsInput
-  ): Promise<AddProductResponse> {
+    args: HandleProductsInput
+  ): Promise<HandleProductResponse> {
     const productsData = await this.productService.findByIds(args.productIds);
 
     if (
@@ -37,7 +37,7 @@ export class AddProductResolver {
       };
     }
 
-    const userProducts = await this.userService.addProducts(
+    const userProducts = await this.userService.handleProducts(
       session.userId,
       productsData
     );
