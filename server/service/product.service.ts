@@ -18,4 +18,10 @@ export class ProductService {
 
     return product;
   }
+
+  async findByIds(ids: number[]): Promise<Product[] | undefined> {
+    const products = await Product.findByIds(ids);
+
+    return products;
+  }
 }

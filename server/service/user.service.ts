@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { User } from '../entity/User';
+import { Product } from '../entity/Product';
 import { AuthInput } from '../graphql/user/shared/user.input';
 
 @Service()
@@ -12,6 +13,18 @@ export class UserService {
 
   async login(input: AuthInput): Promise<User | undefined> {
     const userData = await this.findByEmail(input.email);
+
+    return userData;
+  }
+
+  async addProducts(
+    id: number,
+    products: Product[]
+  ): Promise<User | undefined> {
+    const userData = await this.findById(id);
+
+    userData.products = products;
+    userData.save();
 
     return userData;
   }

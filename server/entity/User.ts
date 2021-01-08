@@ -46,7 +46,7 @@ export class User extends Meta {
   @Column({ type: 'enum', enum: Object.values(Role), default: Role.User })
   role: string;
 
-  @ManyToMany(() => Product)
+  @ManyToMany(() => Product, { onDelete: 'CASCADE' })
   @JoinTable()
   products: Product[];
 
