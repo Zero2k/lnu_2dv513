@@ -24,6 +24,7 @@
     "react-dom": "^16.8.0",
     "react-hook-form": "^6.14.0",
     "reflect-metadata": "^0.1.13",
+    "slugify": "^1.4.6",
     "styletron-engine-atomic": "^1.1.2",
     "styletron-react": "^5.0.1",
     "type-graphql": "^1.1.1",

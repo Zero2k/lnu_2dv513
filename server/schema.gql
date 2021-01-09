@@ -16,6 +16,15 @@ type Category {
   updatedAt: String!
 }
 
+type CategoryResponse {
+  category: Category
+  errors: [Error!]
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
 input CreateProductInput {
   art: Float!
   description: String!
@@ -26,6 +35,11 @@ input CreateProductInput {
 type Error {
   message: String!
   path: String!
+}
+
+input HandleProductCategoryInput {
+  categoryId: Int!
+  productId: Int!
 }
 
 type HandleProductResponse {
@@ -44,7 +58,9 @@ type Meta {
 }
 
 type Mutation {
+  createCategory(input: CreateCategoryInput!): CategoryResponse!
   createProduct(input: CreateProductInput!): ProductResponse!
+  handleProductCategory(input: HandleProductCategoryInput!): ProductResponse!
   handleProducts(input: HandleProductsInput!): HandleProductResponse!
   logout: Boolean!
   signIn(input: AuthInput!): UserResponse!
@@ -59,7 +75,10 @@ type Product {
   id: ID!
   img_url: String!
   name: String!
+  price: Float!
+  slug: String!
   updatedAt: String!
+  video_preview: String!
 }
 
 type ProductResponse {

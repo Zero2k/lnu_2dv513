@@ -1,5 +1,6 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, BeforeInsert } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
+import slugify from 'slugify';
 import { Meta } from './Meta';
 
 @ObjectType()
@@ -10,6 +11,13 @@ export class Category extends Meta {
   name: string;
 
   @Field()
-  @Column('text')
+  @Column('text', { nullable: true })
   slug: string;
+
+  @BeforeInsert()
+  async createSlug() {
+    this.slug = slugify(this.name, {
+      lower: true,
+    });
+  }
 }

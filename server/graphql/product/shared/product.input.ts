@@ -1,4 +1,4 @@
-import { InputType, Field } from 'type-graphql';
+import { InputType, Field, Int } from 'type-graphql';
 
 @InputType()
 export class CreateProductInput {
@@ -13,4 +13,13 @@ export class CreateProductInput {
 
   @Field()
   art: number;
+}
+
+@InputType()
+export class HandleProductCategoryInput {
+  @Field(() => Int)
+  productId: number;
+
+  @Field(() => Int)
+  categoryId: number;
 }

@@ -1,5 +1,6 @@
-import { Entity, Column, ManyToOne, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinTable, BeforeInsert } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
+import slugify from 'slugify';
 import { Meta } from './Meta';
 import { Category } from './Category';
 
@@ -11,18 +12,37 @@ export class Product extends Meta {
   name: string;
 
   @Field()
+  @Column('text', { nullable: true })
+  slug: string;
+
+  @Field()
   @Column('text')
   description: string;
+
+  @Field()
+  @Column('int', { nullable: true })
+  art: number | null;
 
   @Field()
   @Column('text', { nullable: true })
   img_url: string | null;
 
   @Field()
-  @Column('int', { nullable: true })
-  art: number | null;
+  @Column('text', { nullable: true })
+  video_preview: string | null;
 
-  @ManyToOne(() => Category)
+  @Field()
+  @Column('float', { nullable: true })
+  price: number | null;
+
+  @ManyToOne(() => Category, { onDelete: 'CASCADE' })
   @JoinTable()
   category: Category;
+
+  @BeforeInsert()
+  async createSlug() {
+    this.slug = slugify(this.name, {
+      lower: true,
+    });
+  }
 }
