@@ -35,7 +35,9 @@ export class Product extends Meta {
   @Column('float', { nullable: true })
   price: number | null;
 
-  @ManyToOne(() => Category, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Category, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   category: Category;
 

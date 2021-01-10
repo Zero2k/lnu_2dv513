@@ -10,18 +10,26 @@ export class ProductService {
     return productData;
   }
 
-  async findById(id: number): Promise<Product | undefined> {
+  async findById(id: number): Promise<Product> {
+    const product = await Product.findOne({
+      where: { id },
+    });
+
+    return product;
+  }
+
+  async findByIds(ids: number[]): Promise<Product[]> {
+    const products = await Product.findByIds(ids);
+
+    return products;
+  }
+
+  async findCategory(id: number): Promise<Product> {
     const product = await Product.findOne({
       where: { id },
       relations: ['category'],
     });
 
     return product;
-  }
-
-  async findByIds(ids: number[]): Promise<Product[] | undefined> {
-    const products = await Product.findByIds(ids);
-
-    return products;
   }
 }

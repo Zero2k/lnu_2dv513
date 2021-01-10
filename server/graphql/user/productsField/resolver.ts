@@ -9,7 +9,7 @@ export class ProductsResolver {
   @Inject(() => UserService)
   userService: UserService;
 
-  @FieldResolver(() => [Product])
+  @FieldResolver(() => [Product], { nullable: true })
   async products(@Root() rootUser: User): Promise<Product[]> {
     const user = await this.userService.findProducts(rootUser.id);
 

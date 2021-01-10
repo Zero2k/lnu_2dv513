@@ -11,7 +11,7 @@ export class CreateProductInput {
   @Field()
   img_url: string;
 
-  @Field()
+  @Field(() => Int)
   art: number;
 }
 

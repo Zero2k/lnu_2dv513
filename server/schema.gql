@@ -26,7 +26,7 @@ input CreateCategoryInput {
 }
 
 input CreateProductInput {
-  art: Float!
+  art: Int!
   description: String!
   img_url: String!
   name: String!
@@ -69,7 +69,7 @@ type Mutation {
 
 type Product {
   art: Float!
-  category: Category!
+  category: Category
   createdAt: String!
   description: String!
   id: ID!
@@ -98,7 +98,7 @@ type User {
   id: ID!
   name: String!
   phone: Float!
-  products: [Product!]!
+  products: [Product!]
   updatedAt: String!
   zip: Float!
 }
