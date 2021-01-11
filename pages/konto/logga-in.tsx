@@ -4,7 +4,8 @@ import { useStyletron } from 'baseui';
 import { Block } from 'baseui/block';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
-import { Button } from 'baseui/button';
+import { Button, KIND } from 'baseui/button';
+import Link from 'next/link';
 
 interface FormValues {
   email: string;
@@ -12,7 +13,8 @@ interface FormValues {
 }
 
 const Login: React.FC = () => {
-  const [css] = useStyletron();
+  const [css, theme] = useStyletron();
+  const space = css({ marginLeft: theme.sizing.scale300 });
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
@@ -47,9 +49,17 @@ const Login: React.FC = () => {
               inputRef={register}
             />
           </FormControl>
-          <FormControl>
-            <Button type="submit">Logga In</Button>
-          </FormControl>
+          <div>
+            <Button type="submit" kind={KIND.primary}>
+              Logga in
+            </Button>
+            <span className={space} />
+            <Link href="/konto/skapa-konto">
+              <Button kind={KIND.secondary} $as="a">
+                Skapa konto
+              </Button>
+            </Link>
+          </div>
         </form>
       </Block>
     </>

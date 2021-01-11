@@ -7,6 +7,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.6",
+    "@apollo/react-ssr": "^4.0.0",
     "apollo-server-express": "^2.19.1",
     "apollo-server-micro": "2.11.0",
     "baseui": "^9.106.3",

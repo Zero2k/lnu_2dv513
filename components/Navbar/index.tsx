@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useStyletron } from 'baseui';
-import { AppNavBar, NavItemT } from 'baseui/app-nav-bar';
+import { AppNavBar } from 'baseui/app-nav-bar';
 import { Back, More } from '../../icons';
 
-export default function Navbar() {
+export default function Navbar({ user }) {
   const [css] = useStyletron();
   const { asPath, push } = useRouter();
   const mainItems = [
@@ -56,15 +56,15 @@ export default function Navbar() {
 
   const userItems = [
     {
-      label: 'Overview',
+      label: 'Översikt',
       info: { link: '/user/overview' },
     },
     {
-      label: 'Settings',
+      label: 'Inställningar',
       info: { link: '/user/settings' },
     },
     {
-      label: 'Logout',
+      label: 'Logga ut',
       info: { link: '/logout' },
     },
   ];
@@ -72,11 +72,11 @@ export default function Navbar() {
   const authItems = [
     {
       label: 'Logga In',
-      info: { link: '/auth/logga-in' },
+      info: { link: '/konto/logga-in' },
     },
     {
       label: 'Skapa Konto',
-      info: { link: '/auth/skapa-konto' },
+      info: { link: '/konto/skapa-konto' },
     },
   ];
 
@@ -111,7 +111,7 @@ export default function Navbar() {
           </Link>
         }
         mainItems={mainItems}
-        userItems={true ? authItems : userItems}
+        userItems={!user ? authItems : userItems}
         username="PyroLead.com"
         userImgUrl=""
         onMainItemSelect={handleMainItemSelect}
