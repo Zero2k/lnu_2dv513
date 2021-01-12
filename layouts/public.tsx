@@ -4,13 +4,17 @@ import { Grid, Cell, BEHAVIOR } from 'baseui/layout-grid';
 import Navbar from '../components/Navbar';
 import Footer from 'components/Footer';
 import { ME_QUERY } from 'graphql/user';
+import { isServer } from 'utils/isServer';
+import { withApollo } from 'utils/withApollo';
 
 interface Props {
   children?: ReactNode;
 }
 
 const Public = ({ children }: Props) => {
-  const { data } = useQuery(ME_QUERY);
+  const userData = useQuery(ME_QUERY, { skip: isServer() });
+
+  const { data } = userData;
 
   return (
     <React.Fragment>
@@ -23,4 +27,4 @@ const Public = ({ children }: Props) => {
   );
 };
 
-export default Public;
+export default withApollo({ ssr: true })(Public);

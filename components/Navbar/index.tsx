@@ -4,8 +4,13 @@ import Link from 'next/link';
 import { useStyletron } from 'baseui';
 import { AppNavBar } from 'baseui/app-nav-bar';
 import { Back, More } from '../../icons';
+import { useMutation, useApolloClient } from '@apollo/client';
+import { LOGOUT } from 'graphql/user';
 
 export default function Navbar({ user }) {
+  const [logout] = useMutation(LOGOUT);
+  const apolloClient = useApolloClient();
+  const router = useRouter();
   const [css] = useStyletron();
   const { asPath, push } = useRouter();
   const mainItems = [
@@ -65,7 +70,7 @@ export default function Navbar({ user }) {
     },
     {
       label: 'Logga ut',
-      info: { link: '/logout' },
+      info: { link: '/logout', onClick: () => handleLogout() },
     },
   ];
 
@@ -91,6 +96,16 @@ export default function Navbar({ user }) {
     [asPath]
   );
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      await apolloClient.clearStore();
+      router.push('/');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   React.useEffect(() => {
     isMainItemActive(asPath);
   }, []);
@@ -112,22 +127,35 @@ export default function Navbar({ user }) {
         }
         mainItems={mainItems}
         userItems={!user ? authItems : userItems}
-        username="PyroLead.com"
+        username={!user ? 'PyroLead.com' : 'Username'}
         userImgUrl=""
         onMainItemSelect={handleMainItemSelect}
         isMainItemActive={isMainItemActive}
-        mapItemToNode={(item) => (
-          <Link href={item.info?.link} passHref>
-            <a
-              className={css({
-                textDecoration: 'none',
-                color: '#000000',
-              })}
-            >
-              {item.label}
-            </a>
-          </Link>
-        )}
+        mapItemToNode={(item) => {
+          return !item.info?.onClick ? (
+            <Link href={item.info?.link} passHref>
+              <a
+                className={css({
+                  textDecoration: 'none',
+                  color: '#000000',
+                })}
+              >
+                {item.label}
+              </a>
+            </Link>
+          ) : (
+            <span onClick={item.info.onClick}>
+              <a
+                className={css({
+                  textDecoration: 'none',
+                  color: '#000000',
+                })}
+              >
+                {item.label}
+              </a>
+            </span>
+          );
+        }}
       />
     </React.Fragment>
   );

@@ -4,7 +4,6 @@ import { LightTheme, BaseProvider } from 'baseui';
 import { styletron } from '../styletron';
 import PageWithLayoutType from '../types/pageWithLayout';
 import Public from '../layouts/public';
-import { withApollo } from 'utils/withApollo';
 
 type AppLayoutProps = {
   Component: PageWithLayoutType;
@@ -24,4 +23,4 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
   );
 }
 
-export default withApollo({ ssr: true })(MyApp);
+export default MyApp;
