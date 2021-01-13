@@ -15,7 +15,6 @@ export default function Navbar({ user }) {
   const { asPath, push } = useRouter();
   const mainItems = [
     { label: 'Start', info: { link: '/' } },
-    { label: 'Om sidan', info: { link: '/about' } },
     { label: 'Återförsäljare', info: { link: '/resellers' } },
     {
       icon: More,
@@ -62,15 +61,15 @@ export default function Navbar({ user }) {
   const userItems = [
     {
       label: 'Översikt',
-      info: { link: '/user/overview' },
+      info: { link: '/konto/oversikt' },
     },
     {
       label: 'Inställningar',
-      info: { link: '/user/settings' },
+      info: { link: '/konto/installningar' },
     },
     {
       label: 'Logga ut',
-      info: { link: '/logout', onClick: () => handleLogout() },
+      info: { link: '', onClick: () => handleLogout() },
     },
   ];
 
@@ -127,7 +126,7 @@ export default function Navbar({ user }) {
         }
         mainItems={mainItems}
         userItems={!user ? authItems : userItems}
-        username={!user ? 'PyroLead.com' : 'Username'}
+        username={!user ? 'PyroLead.com' : user.email}
         userImgUrl=""
         onMainItemSelect={handleMainItemSelect}
         isMainItemActive={isMainItemActive}

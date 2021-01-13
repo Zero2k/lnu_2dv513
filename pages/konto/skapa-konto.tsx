@@ -6,6 +6,9 @@ import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { Button, KIND } from 'baseui/button';
 import Link from 'next/link';
+import { useMutation } from '@apollo/client';
+import { SIGNUP } from 'graphql/user';
+import { useRouter } from 'next/router';
 
 interface FormValues {
   email: string;
@@ -13,10 +16,31 @@ interface FormValues {
 }
 
 const Register: React.FC = () => {
+  const router = useRouter();
   const [css, theme] = useStyletron();
+  const [signUp] = useMutation(SIGNUP);
   const space = css({ marginLeft: theme.sizing.scale300 });
-  const { register, handleSubmit } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    errors,
+    formState: { isSubmitting },
+  } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = async ({ email, password }) => {
+    const response = await signUp({ variables: { email, password } });
+
+    const { user, errors } = response.data.signUp;
+
+    if (user) {
+      router.push('/konto/logga-in');
+    } else {
+      errors?.forEach((error) => {
+        setError(error.path, { message: error.message });
+      });
+    }
+  };
 
   return (
     <>
@@ -33,7 +57,7 @@ const Register: React.FC = () => {
           className={css({ width: '100%' })}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <FormControl label={() => 'Email'}>
+          <FormControl label={() => 'Email'} error={errors.email?.message}>
             <Input
               name="email"
               placeholder="Email"
@@ -41,7 +65,10 @@ const Register: React.FC = () => {
               inputRef={register}
             />
           </FormControl>
-          <FormControl label={() => 'Password'}>
+          <FormControl
+            label={() => 'Password'}
+            error={errors.password?.message}
+          >
             <Input
               name="password"
               placeholder="Password"
@@ -50,7 +77,7 @@ const Register: React.FC = () => {
             />
           </FormControl>
           <div>
-            <Button type="submit" kind={KIND.primary}>
+            <Button type="submit" kind={KIND.primary} disabled={isSubmitting}>
               Skapa konto
             </Button>
             <span className={space} />
