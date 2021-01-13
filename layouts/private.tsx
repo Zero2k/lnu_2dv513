@@ -5,13 +5,21 @@ import Navbar from '../components/Navbar';
 import { ME_QUERY } from 'graphql/user';
 import { isServer } from 'utils/isServer';
 import { withApollo } from 'utils/withApollo';
+import { useRouter } from 'next/router';
 
 interface Props {
   children?: JSX.Element;
 }
 
 const Private = ({ children }: Props) => {
+  const router = useRouter();
   const userData = useQuery(ME_QUERY, { skip: isServer() });
+
+  React.useEffect(() => {
+    if (!userData.loading && !userData.data?.me) {
+      router.push('/konto/logga-in');
+    }
+  }, [userData]);
 
   const { data } = userData;
 

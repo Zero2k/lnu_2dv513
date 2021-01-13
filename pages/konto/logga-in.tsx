@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     const { user, errors } = response.data.signIn;
 
     if (user) {
-      router.push('/products');
+      router.push('/konto/oversikt');
     } else {
       errors?.forEach((error) => {
         setError(error.path, { message: error.message });

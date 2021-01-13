@@ -5,6 +5,14 @@ export const ME_QUERY = gql`
     me {
       id
       email
+      name
+      phone
+      address
+      zip
+      city
+      products {
+        id
+      }
     }
   }
 `;
