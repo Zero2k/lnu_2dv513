@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Grid, Cell, BEHAVIOR } from 'baseui/layout-grid';
 import Navbar from '../components/Navbar';
@@ -7,10 +7,10 @@ import { isServer } from 'utils/isServer';
 import { withApollo } from 'utils/withApollo';
 
 interface Props {
-  children?: ReactNode;
+  children?: JSX.Element;
 }
 
-const Public = ({ children }: Props) => {
+const Private = ({ children }: Props) => {
   const userData = useQuery(ME_QUERY, { skip: isServer() });
 
   const { data } = userData;
@@ -19,10 +19,12 @@ const Public = ({ children }: Props) => {
     <React.Fragment>
       <Navbar user={data?.me} />
       <Grid behavior={BEHAVIOR.fixed}>
-        <Cell span={12}>{children}</Cell>
+        <Cell span={12}>
+          {React.cloneElement(children, { currentUser: data?.me })}
+        </Cell>
       </Grid>
     </React.Fragment>
   );
 };
 
-export default withApollo({ ssr: true })(Public);
+export default withApollo({ ssr: false })(Private);
