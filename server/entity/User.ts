@@ -16,29 +16,29 @@ import { Role } from '../config/role';
 @ObjectType()
 @Entity()
 export class User extends Meta {
-  @Field()
+  @Field({ nullable: true })
   @Column('text', { nullable: true })
-  name: string;
+  name?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column('int', { nullable: true })
-  phone: number;
+  phone?: number;
 
   @Field()
   @Column('text', { unique: true })
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column('text', { nullable: true })
-  address: string;
+  address?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column('int', { nullable: true })
-  zip: number;
+  zip?: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column('text', { nullable: true })
-  city: string;
+  city?: string;
 
   @Column('text')
   password: string;

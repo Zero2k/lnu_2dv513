@@ -91,16 +91,16 @@ type Query {
 }
 
 type User {
-  address: String!
-  city: String!
+  address: String
+  city: String
   createdAt: String!
   email: String!
   id: ID!
-  name: String!
-  phone: Float!
+  name: String
+  phone: Float
   products: [Product!]
   updatedAt: String!
-  zip: Float!
+  zip: Float
 }
 
 type UserResponse {
