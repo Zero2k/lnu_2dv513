@@ -18,3 +18,11 @@ export const signInSchema = yup.object().shape({
   email: yup.string().min(5, emailLength).email(validEmail),
   password: yup.string().min(5, passwordLength),
 });
+
+export const handleProfileSchema = yup.object().shape({
+  name: yup.string().min(5),
+  phone: yup.number().min(5),
+  address: yup.string().min(5),
+  zip: yup.number().min(5),
+  city: yup.string().min(1),
+});

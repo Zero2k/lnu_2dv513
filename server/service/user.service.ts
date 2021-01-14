@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { User } from '../entity/User';
 import { Product } from '../entity/Product';
-import { AuthInput } from '../graphql/user/shared/user.input';
+import { AuthInput, HandleProfile } from '../graphql/user/shared/user.input';
 
 @Service()
 export class UserService {
@@ -9,6 +9,20 @@ export class UserService {
     const userData = await User.create(input).save();
 
     return userData;
+  }
+
+  async handleProfile(id: number, input: HandleProfile): Promise<User> {
+    const userData = await this.findById(id);
+
+    userData.name = !input.name ? userData.name : input.name;
+    userData.phone = !input.phone ? userData.phone : input.phone;
+    userData.address = !input.address ? userData.address : input.address;
+    userData.zip = !input.zip ? userData.zip : input.zip;
+    userData.city = !input.city ? userData.city : input.city;
+
+    const updateUser = await userData.save();
+
+    return updateUser;
   }
 
   async login(input: AuthInput): Promise<User | undefined> {

@@ -10,6 +10,24 @@ export class AuthInput {
 }
 
 @InputType()
+export class HandleProfile {
+  @Field()
+  name: string;
+
+  @Field()
+  phone: number;
+
+  @Field()
+  address: string;
+
+  @Field()
+  zip: number;
+
+  @Field()
+  city: string;
+}
+
+@InputType()
 export class HandleProductsInput {
   @Field(() => [Int])
   productIds: number[];

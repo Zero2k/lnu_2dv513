@@ -51,6 +51,14 @@ input HandleProductsInput {
   productIds: [Int!]!
 }
 
+input HandleProfile {
+  address: String!
+  city: String!
+  name: String!
+  phone: Float!
+  zip: Float!
+}
+
 type Meta {
   createdAt: String!
   id: ID!
@@ -62,6 +70,7 @@ type Mutation {
   createProduct(input: CreateProductInput!): ProductResponse!
   handleProductCategory(input: HandleProductCategoryInput!): ProductResponse!
   handleProducts(input: HandleProductsInput!): HandleProductResponse!
+  handleProfile(input: HandleProfile!): UserResponse!
   logout: Boolean!
   signIn(input: AuthInput!): UserResponse!
   signUp(input: AuthInput!): UserResponse!
