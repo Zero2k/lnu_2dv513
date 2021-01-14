@@ -55,8 +55,8 @@ input HandleProfile {
   address: String!
   city: String!
   name: String!
-  phone: Float!
-  zip: Float!
+  phone: String!
+  zip: String!
 }
 
 type Meta {
@@ -106,10 +106,10 @@ type User {
   email: String!
   id: ID!
   name: String
-  phone: Float
+  phone: String
   products: [Product!]
   updatedAt: String!
-  zip: Float
+  zip: String
 }
 
 type UserResponse {

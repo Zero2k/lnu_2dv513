@@ -15,13 +15,13 @@ export class HandleProfile {
   name: string;
 
   @Field()
-  phone: number;
+  phone: string;
 
   @Field()
   address: string;
 
   @Field()
-  zip: number;
+  zip: string;
 
   @Field()
   city: string;

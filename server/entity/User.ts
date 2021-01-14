@@ -21,8 +21,8 @@ export class User extends Meta {
   name?: string;
 
   @Field({ nullable: true })
-  @Column('int', { nullable: true })
-  phone?: number;
+  @Column('text', { nullable: true })
+  phone?: string;
 
   @Field()
   @Column('text', { unique: true })
@@ -33,8 +33,8 @@ export class User extends Meta {
   address?: string;
 
   @Field({ nullable: true })
-  @Column('int', { nullable: true })
-  zip?: number;
+  @Column('text', { nullable: true })
+  zip?: string;
 
   @Field({ nullable: true })
   @Column('text', { nullable: true })
