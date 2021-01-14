@@ -6,7 +6,8 @@ import { ProgressSteps, NumberedStep } from 'baseui/progress-steps';
 import { Button, SHAPE, ButtonProps, KIND, SIZE } from 'baseui/button';
 import PageWithLayoutType from 'types/pageWithLayout';
 import Private from '../../layouts/private';
-import AddProfileForm from 'forms/addProfile';
+import HandleProfileForm from 'forms/handleProfile';
+import HandleProductsForm from 'forms/handleProducts';
 
 function SpacedButton(props: ButtonProps) {
   return (
@@ -28,7 +29,7 @@ function SpacedButton(props: ButtonProps) {
   );
 }
 
-const Oversikt = ({ currentUser }) => {
+const Oversikt = ({ currentUser, loadingUser }) => {
   const router = useRouter();
   const [setup, setSetup] = React.useState({ profile: false, products: false });
   const [current, setCurrent] = React.useState(0);
@@ -47,6 +48,10 @@ const Oversikt = ({ currentUser }) => {
     });
   }, [currentUser]);
 
+  React.useEffect(() => {
+    !setup.profile ? setCurrent(0) : setCurrent(1);
+  }, [setup]);
+
   return (
     <>
       <Block
@@ -56,7 +61,7 @@ const Oversikt = ({ currentUser }) => {
         display="flex"
         flexWrap
       >
-        {!setup.profile ? (
+        {!setup.profile || !setup.products ? (
           <ProgressSteps
             overrides={{
               Root: {
@@ -67,23 +72,20 @@ const Oversikt = ({ currentUser }) => {
             }}
             current={current}
           >
-            <NumberedStep title="Skapa profil (krävs)">
+            <NumberedStep title="Skapa profil">
               <div className={css({ ...theme.typography.ParagraphSmall })}>
                 Innan du kan börja marknadsföra vilka produkter er butik säljer
                 samt ta emot förhandsbeställningar så måste du skapa en
                 företagsprofil.
               </div>
-              <AddProfileForm setStep={setCurrent} />
+              <HandleProfileForm setStep={setCurrent} user={currentUser} />
             </NumberedStep>
-            <NumberedStep title="Lägg till produkter (frivilligt)">
+            <NumberedStep title="Lägg till produkter">
               <div className={css({ ...theme.typography.ParagraphSmall })}>
                 Du måste lägga till de produkter som ni säljer för att er butik
                 ska bli synlig bland alla återförsäljare.
               </div>
-              <SpacedButton onClick={() => setCurrent(0)}>
-                Föregående
-              </SpacedButton>
-              <SpacedButton onClick={() => setCurrent(2)}>Nästa</SpacedButton>
+              <HandleProductsForm setStep={setCurrent} products={[]} />
             </NumberedStep>
             <NumberedStep title="Översikt & Spara">
               <div className={css({ ...theme.typography.ParagraphSmall })}>

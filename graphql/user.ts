@@ -50,3 +50,36 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const HANDLE_PROFILE = gql`
+  mutation HandleProfile(
+    $name: String!
+    $phone: String!
+    $address: String!
+    $zip: String!
+    $city: String!
+  ) {
+    handleProfile(
+      input: {
+        name: $name
+        phone: $phone
+        address: $address
+        zip: $zip
+        city: $city
+      }
+    ) {
+      user {
+        id
+        name
+        phone
+        address
+        zip
+        city
+      }
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;

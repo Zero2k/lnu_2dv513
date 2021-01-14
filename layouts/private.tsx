@@ -21,14 +21,17 @@ const Private = ({ children }: Props) => {
     }
   }, [userData]);
 
-  const { data } = userData;
+  const { data, loading } = userData;
 
   return (
     <React.Fragment>
       <Navbar user={data?.me} />
       <Grid behavior={BEHAVIOR.fixed}>
         <Cell span={12}>
-          {React.cloneElement(children, { currentUser: data?.me })}
+          {React.cloneElement(children, {
+            currentUser: data?.me,
+            loadingUser: loading,
+          })}
         </Cell>
       </Grid>
     </React.Fragment>

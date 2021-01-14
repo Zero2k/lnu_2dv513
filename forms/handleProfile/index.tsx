@@ -4,6 +4,8 @@ import { useStyletron } from 'baseui';
 import { Button, SHAPE, ButtonProps, KIND, SIZE } from 'baseui/button';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
+import { useMutation } from '@apollo/client';
+import { HANDLE_PROFILE } from 'graphql/user';
 
 function SpacedButton(props: ButtonProps) {
   return (
@@ -35,21 +37,42 @@ interface ProfileFormValues {
 
 interface Props {
   setStep: (step: number) => void;
+  user: any;
 }
 
-function AddProfileForm({ setStep }: Props) {
+function HandleProfileForm({ setStep, user }: Props) {
   const [css] = useStyletron();
+  const [handleProfile] = useMutation(HANDLE_PROFILE);
   const {
     register,
     handleSubmit,
     setError,
     errors,
     formState: { isSubmitting },
-  } = useForm<ProfileFormValues>();
+  } = useForm<ProfileFormValues>({
+    defaultValues: {
+      name: user?.name,
+      phone: user?.phone,
+      address: user?.address,
+      zip: user?.zip,
+      city: user?.city,
+    },
+  });
 
   const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
-    console.log(data);
-    setStep(1);
+    const response = await handleProfile({
+      variables: { ...data },
+    });
+
+    const { user, errors } = response.data.handleProfile;
+
+    if (user && !errors) {
+      setStep(1);
+    } else {
+      errors?.forEach((error) => {
+        setError(error.path, { message: error.message });
+      });
+    }
   };
 
   return (
@@ -70,7 +93,7 @@ function AddProfileForm({ setStep }: Props) {
           <Input
             name="phone"
             placeholder="Telefon"
-            type="number"
+            type="text"
             inputRef={register}
           />
         </FormControl>
@@ -106,4 +129,4 @@ function AddProfileForm({ setStep }: Props) {
   );
 }
 
-export default AddProfileForm;
+export default HandleProfileForm;
