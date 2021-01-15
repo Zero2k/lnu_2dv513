@@ -17,4 +17,19 @@ export class CategoryService {
 
     return category;
   }
+
+  async findAll(): Promise<Category[]> {
+    const categories = await Category.find();
+
+    return categories;
+  }
+
+  async findProducts(id: number): Promise<Category> {
+    const category = await Category.findOne({
+      where: { id },
+      relations: ['products'],
+    });
+
+    return category;
+  }
 }

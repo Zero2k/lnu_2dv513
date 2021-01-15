@@ -12,6 +12,7 @@ type Category {
   createdAt: String!
   id: ID!
   name: String!
+  products: [Product!]
   slug: String!
   updatedAt: String!
 }
@@ -96,6 +97,7 @@ type ProductResponse {
 }
 
 type Query {
+  categories: [Category!]!
   me: User!
 }
 
