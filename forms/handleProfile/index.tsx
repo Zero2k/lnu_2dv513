@@ -36,11 +36,12 @@ interface ProfileFormValues {
 }
 
 interface Props {
-  setStep: (step: number) => void;
+  setStep?: (step: number) => void;
+  redirect?: () => void;
   user: any;
 }
 
-function HandleProfileForm({ setStep, user }: Props) {
+function HandleProfileForm({ setStep, redirect, user }: Props) {
   const [css] = useStyletron();
   const [handleProfile] = useMutation(HANDLE_PROFILE);
   const {
@@ -67,7 +68,8 @@ function HandleProfileForm({ setStep, user }: Props) {
     const { user, errors } = response.data.handleProfile;
 
     if (user && !errors) {
-      setStep(1);
+      setStep && setStep(1);
+      redirect && redirect();
     } else {
       errors?.forEach((error) => {
         setError(error.path, { message: error.message });

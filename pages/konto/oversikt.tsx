@@ -7,15 +7,17 @@ import { Grid, Cell } from 'baseui/layout-grid';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Button } from 'baseui/button';
 import { ProgressSteps, NumberedStep } from 'baseui/progress-steps';
-import PageWithLayoutType from 'types/pageWithLayout';
 import Private from '../../layouts/private';
 import HandleProfileForm from 'forms/handleProfile';
 import HandleProductsForm from 'forms/handleProducts';
 import { useQuery } from '@apollo/client';
 import { CATEGORIES_QUERY } from 'graphql/category';
 import { isServer } from 'utils/isServer';
+import Link from 'next/link';
+import { useIsAuth } from 'utils/useIsAuth';
 
-const Oversikt = ({ currentUser, loadingUser }) => {
+const Oversikt = () => {
+  const { currentUser } = useIsAuth();
   const [setup, setSetup] = React.useState({ profile: false, products: false });
   const [current, setCurrent] = React.useState(0);
   const [products, setProducts] = React.useState({});
@@ -93,7 +95,7 @@ const Oversikt = ({ currentUser, loadingUser }) => {
           display="block"
           flexWrap
         >
-          <Grid>
+          <Grid gridMargins={0}>
             <Cell span={[12, 12, 8]}>
               <HeadingLevel>
                 <Heading styleLevel={4}>Översikt</Heading>
@@ -110,9 +112,11 @@ const Oversikt = ({ currentUser, loadingUser }) => {
               >
                 <ListItem
                   endEnhancer={() => (
-                    <Button size="compact" kind="secondary">
-                      Hantera
-                    </Button>
+                    <Link href="/konto/installningar" passHref>
+                      <Button $as="a" size="compact" kind="secondary">
+                        Hantera
+                      </Button>
+                    </Link>
                   )}
                 >
                   <ListItemLabel>Inställningar</ListItemLabel>
@@ -144,6 +148,6 @@ const Oversikt = ({ currentUser, loadingUser }) => {
   );
 };
 
-(Oversikt as PageWithLayoutType).layout = Private;
+Oversikt.layout = Private;
 
 export default Oversikt;

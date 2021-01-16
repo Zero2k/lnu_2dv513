@@ -1,23 +1,19 @@
 import React, { ReactNode } from 'react';
-import { useQuery } from '@apollo/client';
 import { Grid, Cell, BEHAVIOR } from 'baseui/layout-grid';
 import Navbar from '../components/Navbar';
-import { ME_QUERY } from 'graphql/user';
-import { isServer } from 'utils/isServer';
 import { withApollo } from 'utils/withApollo';
+import { useIsAuth } from 'utils/useIsAuth';
 
 interface Props {
   children?: ReactNode;
 }
 
 const Public = ({ children }: Props) => {
-  const userData = useQuery(ME_QUERY, { skip: isServer() });
-
-  const { data } = userData;
+  const { currentUser } = useIsAuth();
 
   return (
     <React.Fragment>
-      <Navbar user={data?.me} />
+      <Navbar user={currentUser} />
       <Grid behavior={BEHAVIOR.fixed}>
         <Cell span={12}>{children}</Cell>
       </Grid>
