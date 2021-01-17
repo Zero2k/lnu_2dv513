@@ -30,7 +30,7 @@ export class HandleProductResolver {
       return {
         errors: [
           {
-            path: 'productsIds',
+            path: 'id',
             message: 'One or more product ids does not exist',
           },
         ],
