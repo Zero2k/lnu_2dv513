@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useStyletron } from 'baseui';
 import { Block } from 'baseui/block';
+import { Heading, HeadingLevel } from 'baseui/heading';
 import Private from '../../layouts/private';
 import HandleProfileForm from 'forms/handleProfile';
 import { useRouter } from 'next/router';
@@ -13,17 +14,14 @@ const Installningar = () => {
 
   return (
     <>
-      <Block
-        margin="20px auto"
-        height={['80px', '200px', '250px', '560px']}
-        maxWidth="550px"
-        display="flex"
-        flexWrap
-      >
-        <HandleProfileForm
-          user={currentUser}
-          redirect={() => router.push('/konto/oversikt')}
-        />
+      <Block margin="20px auto" maxWidth="550px" display="flex" flexWrap>
+        <HeadingLevel>
+          <Heading styleLevel={4}>Hantera Profil</Heading>
+          <HandleProfileForm
+            user={currentUser}
+            redirect={() => router.push('/konto/oversikt')}
+          />
+        </HeadingLevel>
       </Block>
     </>
   );
