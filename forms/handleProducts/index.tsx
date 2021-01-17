@@ -33,11 +33,18 @@ interface ProductsFormValues {
 }
 
 interface Props {
-  setStep: (step: number) => void;
-  products: any;
+  setStep?: (step: number) => void;
+  redirect?: () => void;
+  products?: any;
+  userProducts?: any;
 }
 
-function HandleProductsForm({ setStep, products }: Props) {
+function HandleProductsForm({
+  setStep,
+  redirect,
+  products,
+  userProducts,
+}: Props) {
   const [css] = useStyletron();
   const [values, setValues] = React.useState<Value>([]);
   const [handleProducts] = useMutation(HANDLE_PRODUCTS);
@@ -45,11 +52,19 @@ function HandleProductsForm({ setStep, products }: Props) {
     handleSubmit,
     setError,
     errors,
+    clearErrors,
     formState: { isSubmitting },
   } = useForm<ProductsFormValues>();
 
+  React.useEffect(() => {
+    if (userProducts) {
+      setValues(userProducts);
+    }
+  }, [userProducts]);
+
   const onSubmit: SubmitHandler<ProductsFormValues> = async () => {
     const productIds = values.map((item) => parseInt(item.id.toString()));
+    console.log(productIds);
     const response = await handleProducts({
       variables: { productIds },
       update: async (cache, { data: { handleProducts } }) => {
@@ -68,10 +83,11 @@ function HandleProductsForm({ setStep, products }: Props) {
     const { products, errors } = response.data.handleProducts;
 
     if (products && !errors) {
-      setStep(2);
+      setStep && setStep(2);
+      redirect && redirect();
     } else {
       errors?.forEach((error) => {
-        setError('id', { message: error.message });
+        setError(error.path, { message: error.message });
       });
     }
   };
@@ -82,12 +98,14 @@ function HandleProductsForm({ setStep, products }: Props) {
         className={css({ width: '100%' })}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormControl label={() => 'Produkter'} error={errors.id}>
+        <FormControl label={() => 'Produkter'} error={errors.id?.message}>
           <Select
             labelKey="name"
             valueKey="id"
             options={products}
-            onChange={({ value }) => setValues(value)}
+            onChange={({ value }) => {
+              clearErrors(), setValues(value);
+            }}
             value={values}
             multi
             closeOnSelect={false}

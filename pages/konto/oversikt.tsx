@@ -123,9 +123,11 @@ const Oversikt = () => {
                 </ListItem>
                 <ListItem
                   endEnhancer={() => (
-                    <Button size="compact" kind="secondary">
-                      Hantera
-                    </Button>
+                    <Link href="/konto/produkter" passHref>
+                      <Button $as="a" size="compact" kind="secondary">
+                        Hantera
+                      </Button>
+                    </Link>
                   )}
                 >
                   <ListItemLabel>Produkter</ListItemLabel>
