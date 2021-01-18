@@ -92,8 +92,6 @@ export class UserService {
       order: { name: 'ASC' },
     });
 
-    console.log(users);
-
     return users;
   }
 
