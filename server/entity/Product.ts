@@ -1,8 +1,16 @@
-import { Entity, Column, ManyToOne, JoinTable, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinTable,
+  BeforeInsert,
+  ManyToMany,
+} from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import slugify from 'slugify';
 import { Meta } from './Meta';
 import { Category } from './Category';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
@@ -34,6 +42,9 @@ export class Product extends Meta {
   @Field()
   @Column('float', { nullable: true })
   price: number | null;
+
+  @ManyToMany(() => User)
+  user: User[];
 
   @ManyToOne(() => Category, {
     onDelete: 'CASCADE',

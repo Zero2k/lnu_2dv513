@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { User } from '../entity/User';
 import { Product } from '../entity/Product';
 import { AuthInput, HandleProfile } from '../graphql/user/shared/user.input';
+import { IsNull, Not } from 'typeorm';
 
 @Service()
 export class UserService {
@@ -37,6 +38,9 @@ export class UserService {
   ): Promise<User | undefined> {
     const userData = await this.findById(id);
 
+    if (!userData.active) {
+      userData.active = true;
+    }
     userData.products = products;
     userData.save();
 
@@ -73,6 +77,24 @@ export class UserService {
     });
 
     return user;
+  }
+
+  async findActiveResellers(): Promise<User[]> {
+    const users = await User.find({
+      where: {
+        name: Not(IsNull()),
+        phone: Not(IsNull()),
+        address: Not(IsNull()),
+        zip: Not(IsNull()),
+        city: Not(IsNull()),
+        active: true,
+      },
+      order: { name: 'ASC' },
+    });
+
+    console.log(users);
+
+    return users;
   }
 
   async checkActiveUserExists(input: { email: string }): Promise<Boolean> {

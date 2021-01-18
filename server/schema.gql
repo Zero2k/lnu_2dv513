@@ -99,6 +99,7 @@ type ProductResponse {
 type Query {
   categories: [Category!]!
   me: User!
+  resellers: [User!]!
 }
 
 type User {

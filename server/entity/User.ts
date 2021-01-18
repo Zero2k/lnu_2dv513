@@ -43,6 +43,9 @@ export class User extends Meta {
   @Column('text')
   password: string;
 
+  @Column({ type: 'bool', default: false })
+  active: boolean;
+
   @Column({ type: 'enum', enum: Object.values(Role), default: Role.User })
   role: string;
 
