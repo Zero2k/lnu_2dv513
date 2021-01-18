@@ -83,3 +83,18 @@ export const HANDLE_PROFILE = gql`
     }
   }
 `;
+
+export const RESELLERS_QUERY = gql`
+  query Resellers {
+    resellers {
+      id
+      name
+      address
+      zip
+      city
+      products {
+        id
+      }
+    }
+  }
+`;

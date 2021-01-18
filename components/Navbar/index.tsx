@@ -15,44 +15,44 @@ export default function Navbar({ user }) {
   const { asPath, push } = useRouter();
   const mainItems = [
     { label: 'Start', info: { link: '/' } },
-    { label: 'Återförsäljare', info: { link: '/resellers' } },
+    { label: 'Återförsäljare', info: { link: '/saljare' } },
     {
       icon: More,
       label: 'Produkter',
-      info: { link: '/products' },
+      info: { link: '/produkter' },
       navExitIcon: Back,
       children: [
         {
           label: 'Pyrosatser',
-          info: { link: '/products/pyrosatser' },
+          info: { link: '/produkter/pyrosatser' },
         },
         {
           label: 'Familjesatser',
-          info: { link: '/products/familjesatser' },
+          info: { link: '/produkter/familjesatser' },
         },
         {
           label: 'Bombtårtor',
-          info: { link: '/products/bombtartor' },
+          info: { link: '/produkter/bombtartor' },
         },
         {
           label: 'Fyrverkeritårtor',
-          info: { link: '/products/fyrverkeritartor' },
+          info: { link: '/produkter/fyrverkeritartor' },
         },
         {
           label: 'Proffsfyrverkerier',
-          info: { link: '/products/proffsfyrverkerier' },
+          info: { link: '/produkter/proffsfyrverkerier' },
         },
         {
           label: 'Inomhus & Tomtebloss',
-          info: { link: '/products/innomhus-tomtebloss' },
+          info: { link: '/produkter/innomhus-tomtebloss' },
         },
         {
           label: 'Markpjäser / Airbombs',
-          info: { link: '/products/markpjaser-airbombs' },
+          info: { link: '/produkter/markpjaser-airbombs' },
         },
         {
           label: 'Övrigt',
-          info: { link: '/products/ovrigt' },
+          info: { link: '/produkter/ovrigt' },
         },
       ],
     },

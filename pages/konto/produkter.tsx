@@ -27,12 +27,13 @@ const Produkter = () => {
     }
   }, [data]);
 
-  if (loading || loadingCategory)
+  if (loading || loadingCategory) {
     return (
       <React.Fragment>
         <div>Loading...</div>
       </React.Fragment>
     );
+  }
 
   return (
     <>

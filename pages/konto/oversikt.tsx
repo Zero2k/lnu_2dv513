@@ -95,7 +95,12 @@ const Oversikt = () => {
           display="block"
           flexWrap
         >
-          <Grid gridMargins={0}>
+          <Grid
+            gridMargins={0}
+            gridColumns={12}
+            gridGaps={[3, 6, 12]}
+            gridGutters={[3, 6, 12]}
+          >
             <Cell span={[12, 12, 8]}>
               <HeadingLevel>
                 <Heading styleLevel={4}>Översikt</Heading>
