@@ -50,7 +50,7 @@ const Product = ({ product }: Props) => {
         </ul>
       </StyledBody>
       <StyledAction>
-        <Link href={`/produkter/${product.id}`} passHref>
+        <Link href={`/produkt/${product.id}`} passHref>
           <Button
             $as="a"
             overrides={{

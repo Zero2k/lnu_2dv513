@@ -11,7 +11,6 @@ const Resellers: React.FC = () => {
   const resellersData = useQuery(RESELLERS_QUERY);
 
   const { data, loading } = resellersData;
-  console.log(data);
 
   if (loading) {
     return (
