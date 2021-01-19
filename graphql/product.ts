@@ -13,3 +13,18 @@ export const HANDLE_PRODUCTS = gql`
     }
   }
 `;
+
+export const PRODUCTS_QUERY = gql`
+  query Products {
+    products {
+      id
+      name
+      description
+      category {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
