@@ -30,7 +30,7 @@ const Resellers: React.FC = () => {
           gridGutters={[3, 6, 12]}
         >
           {data.resellers.map((reseller) => (
-            <Cell span={[12, 6, 4]}>
+            <Cell span={[12, 6, 4]} key={reseller.id}>
               <Reseller reseller={reseller} />
             </Cell>
           ))}

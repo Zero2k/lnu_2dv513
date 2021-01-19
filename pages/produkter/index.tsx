@@ -30,7 +30,7 @@ const Products: React.FC = () => {
           gridGutters={[3, 6, 12]}
         >
           {data.products.map((product) => (
-            <Cell span={[12, 6, 4]}>
+            <Cell span={[12, 6, 4]} key={product.id}>
               <Product product={product} />
             </Cell>
           ))}
