@@ -24,6 +24,12 @@ export class ProductService {
     return products;
   }
 
+  async findAll(): Promise<Product[]> {
+    const products = await Product.find();
+
+    return products;
+  }
+
   async findCategory(id: number): Promise<Product> {
     const product = await Product.findOne({
       where: { id },
