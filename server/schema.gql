@@ -98,6 +98,7 @@ type ProductResponse {
 
 type Query {
   categories: [Category!]!
+  findUserById(userId: Int!): User!
   me: User!
   products: [Product!]!
   resellers: [User!]!
