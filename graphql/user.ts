@@ -98,3 +98,27 @@ export const RESELLERS_QUERY = gql`
     }
   }
 `;
+
+export const FIND_USER_QUERY = gql`
+  query FindUserById($userId: Int!) {
+    findUserById(userId: $userId) {
+      id
+      name
+      address
+      city
+      zip
+      phone
+      email
+      products {
+        id
+        name
+        description
+        category {
+          id
+          name
+          slug
+        }
+      }
+    }
+  }
+`;

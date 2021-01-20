@@ -5,11 +5,52 @@ import Breadcrumb from 'components/Breadcrumb';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Heading, HeadingLevel } from 'baseui/heading';
-import { Paragraph3 } from 'baseui/typography';
+import { useQuery } from '@apollo/client';
+import { FIND_USER_QUERY } from 'graphql/user';
+import Product from 'components/Product';
+import Cart from 'components/Cart';
 
 const Company: React.FC = () => {
   const [css, theme] = useStyletron();
   const [display, setDisplay] = React.useState(false);
+  const [formPart, setFormPart] = React.useState(1);
+  const [cart, setCart] = React.useState([]);
+
+  const { data, loading } = useQuery(FIND_USER_QUERY, {
+    variables: { userId: 1 },
+  });
+
+  const addToCart = (product) => {
+    const tempProduct = {
+      id: product.id,
+      quantity: 1,
+      price: 10,
+      name: product.name,
+      url: product.name,
+    };
+    const productExists = cart.some((item) => item.id === product.id);
+    if (!productExists) {
+      const newProduct = [tempProduct, ...cart];
+      setCart(newProduct);
+    }
+  };
+
+  const removeFromCart = (product) => {
+    const newCart = cart.filter((p) => {
+      return p.id != product.id;
+    });
+    setCart(newCart);
+  };
+
+  if (loading) {
+    return (
+      <React.Fragment>
+        <div>Loading...</div>
+      </React.Fragment>
+    );
+  }
+
+  const company = data.findUserById;
 
   return (
     <>
@@ -17,7 +58,7 @@ const Company: React.FC = () => {
         <Breadcrumb
           rootRoute="/saljare"
           rootLabel="Återförsäljare"
-          currentRoute="Köksland i Veberöd AB"
+          currentRoute={company.name}
         />
         <Grid
           gridMargins={0}
@@ -27,15 +68,7 @@ const Company: React.FC = () => {
         >
           <Cell span={[12, 4]}>
             <HeadingLevel>
-              <Heading styleLevel={4}>Köksland i Veberöd AB</Heading>
-              {/* <Paragraph3>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum fermentum velit ante, ac fringilla nulla pulvinar in.
-                Aenean ut nisi mattis, lobortis purus vel, aliquet ante. In vel
-                viverra lectus. Vivamus a diam faucibus, rutrum quam a, varius
-                felis. Sed pellentesque sodales libero commodo vestibulum.
-                Phasellus convallis gravida tempor. Sed ut bibendum nisl.
-              </Paragraph3> */}
+              <Heading styleLevel={4}>{company.name}</Heading>
               <Heading styleLevel={6}>Kontakta oss:</Heading>
               <ul
                 className={css({
@@ -45,7 +78,7 @@ const Company: React.FC = () => {
               >
                 <ListItem
                   endEnhancer={() => (
-                    <ListItemLabel>046 - 23 86 60</ListItemLabel>
+                    <ListItemLabel>{company.phone}</ListItemLabel>
                   )}
                   sublist
                 >
@@ -56,7 +89,7 @@ const Company: React.FC = () => {
                     <ListItemLabel>
                       {display ? (
                         <a href="mailto:fyrverkeri@koksland.se">
-                          fyrverkeri@koksland.se
+                          {company.email}
                         </a>
                       ) : (
                         <button onClick={() => setDisplay(true)}>
@@ -78,21 +111,25 @@ const Company: React.FC = () => {
                 })}
               >
                 <ListItem
-                  endEnhancer={() => <ListItemLabel>Test</ListItemLabel>}
+                  endEnhancer={() => (
+                    <ListItemLabel>{company.address}</ListItemLabel>
+                  )}
                   sublist
                 >
                   <ListItemLabel sublist>Address:</ListItemLabel>
                 </ListItem>
                 <ListItem
                   endEnhancer={() => (
-                    <ListItemLabel>Södra Järnvägsgatan 2</ListItemLabel>
+                    <ListItemLabel>{company.city}</ListItemLabel>
                   )}
                   sublist
                 >
                   <ListItemLabel sublist>Stad:</ListItemLabel>
                 </ListItem>
                 <ListItem
-                  endEnhancer={() => <ListItemLabel>240 14</ListItemLabel>}
+                  endEnhancer={() => (
+                    <ListItemLabel>{company.zip}</ListItemLabel>
+                  )}
                   sublist
                 >
                   <ListItemLabel sublist>Postnummer:</ListItemLabel>
@@ -102,8 +139,39 @@ const Company: React.FC = () => {
           </Cell>
           <Cell span={[12, 8]}>
             <HeadingLevel>
+              <Heading styleLevel={5}>
+                Varukorg{' '}
+                <span onClick={() => setFormPart(1)}>({cart.length})</span> &
+                Beställning
+              </Heading>
+            </HeadingLevel>
+            {formPart === 1 ? (
+              <Cart
+                products={cart}
+                removeFromCart={removeFromCart}
+                setFormPart={setFormPart}
+              />
+            ) : null}
+          </Cell>
+          <Cell span={[12]}>
+            <HeadingLevel>
               <Heading styleLevel={5}>Produkter</Heading>
             </HeadingLevel>
+            <Grid
+              gridMargins={0}
+              gridColumns={12}
+              gridGaps={[3, 6, 12]}
+              gridGutters={[3, 6, 12]}
+            >
+              {company.products.map((product) => (
+                <Cell span={[12, 4]} key={product.id}>
+                  <Product
+                    product={product}
+                    addCart={() => addToCart(product)}
+                  />
+                </Cell>
+              ))}
+            </Grid>
           </Cell>
         </Grid>
       </Section>

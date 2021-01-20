@@ -3,6 +3,7 @@ import { useStyletron } from 'baseui';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Button } from 'baseui/button';
+import { Plus } from 'baseui/icon';
 import Link from 'next/link';
 
 interface Props {
@@ -17,9 +18,10 @@ interface Props {
       slug: string;
     };
   };
+  addCart?: () => void;
 }
 
-const Product = ({ product }: Props) => {
+const Product = ({ product, addCart }: Props) => {
   const [css] = useStyletron();
   return (
     <Card title={product.name}>
@@ -50,11 +52,26 @@ const Product = ({ product }: Props) => {
         </ul>
       </StyledBody>
       <StyledAction>
-        <Link href={`/produkt/${product.id}`} passHref>
+        {addCart && (
           <Button
-            $as="a"
+            onClick={addCart}
+            kind="primary"
+            size="compact"
+            startEnhancer={() => <Plus size={24} />}
             overrides={{
               BaseButton: { style: { width: '100%' } },
+            }}
+          >
+            Lägg till i varukorg
+          </Button>
+        )}
+        <Link href={`/produkt/${product.id}`} passHref>
+          <Button
+            kind="secondary"
+            size="compact"
+            $as="a"
+            overrides={{
+              BaseButton: { style: { width: '100%', marginTop: '10px' } },
             }}
           >
             Läs Mer
