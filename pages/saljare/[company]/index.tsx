@@ -9,6 +9,7 @@ import { useQuery } from '@apollo/client';
 import { FIND_USER_QUERY } from 'graphql/user';
 import Product from 'components/Product';
 import Cart from 'components/Cart';
+import OrderForm from 'forms/orderForm';
 
 const Company: React.FC = () => {
   const [css, theme] = useStyletron();
@@ -140,9 +141,19 @@ const Company: React.FC = () => {
           <Cell span={[12, 8]}>
             <HeadingLevel>
               <Heading styleLevel={5}>
-                Varukorg{' '}
-                <span onClick={() => setFormPart(1)}>({cart.length})</span> &
-                Beställning
+                Varukorg ({cart.length}) & Beställning{' '}
+                {formPart === 2 ? (
+                  <small
+                    className={css({
+                      fontSize: '12px',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                    })}
+                    onClick={() => setFormPart(1)}
+                  >
+                    Ändra varukorg
+                  </small>
+                ) : null}
               </Heading>
             </HeadingLevel>
             {formPart === 1 ? (
@@ -151,6 +162,8 @@ const Company: React.FC = () => {
                 removeFromCart={removeFromCart}
                 setFormPart={setFormPart}
               />
+            ) : formPart === 2 ? (
+              <OrderForm resellerId={company.id} cart={cart} />
             ) : null}
           </Cell>
           <Cell span={[12]}>

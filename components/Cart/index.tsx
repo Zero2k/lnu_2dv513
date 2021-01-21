@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
 import { Button } from 'baseui/button';
+import { useStyletron } from 'styletron-react';
 
 interface Props {
   products: any[];
@@ -9,6 +10,7 @@ interface Props {
 }
 
 function Cart({ products, removeFromCart, setFormPart }: Props) {
+  const [css] = useStyletron();
   return (
     <>
       <TableBuilder
@@ -35,7 +37,17 @@ function Cart({ products, removeFromCart, setFormPart }: Props) {
           {(row) => `${row.price * row.quantity} kr`}
         </TableBuilderColumn>
         <TableBuilderColumn header="Hantera">
-          {(row) => <div onClick={() => removeFromCart(row)}>Ta Bort</div>}
+          {(row) => (
+            <div
+              className={css({
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              })}
+              onClick={() => removeFromCart(row)}
+            >
+              Ta Bort
+            </div>
+          )}
         </TableBuilderColumn>
       </TableBuilder>
       {products.length > 0 && (
