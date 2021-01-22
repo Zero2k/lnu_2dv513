@@ -36,7 +36,9 @@ const Product = ({ product, addCart }: Props) => {
           })}
         >
           <ListItem
-            endEnhancer={() => <ListItemLabel>399 kr</ListItemLabel>}
+            endEnhancer={() => (
+              <ListItemLabel>{product.price} kr</ListItemLabel>
+            )}
             sublist
           >
             <ListItemLabel sublist>Pris:</ListItemLabel>

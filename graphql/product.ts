@@ -20,6 +20,7 @@ export const PRODUCTS_QUERY = gql`
       id
       name
       description
+      price
       category {
         id
         name

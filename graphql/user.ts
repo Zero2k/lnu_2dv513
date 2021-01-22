@@ -113,6 +113,7 @@ export const FIND_USER_QUERY = gql`
         id
         name
         description
+        price
         category {
           id
           name

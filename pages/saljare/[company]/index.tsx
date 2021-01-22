@@ -25,7 +25,7 @@ const Company: React.FC = () => {
     const tempProduct = {
       id: product.id,
       quantity: 1,
-      price: 10,
+      price: product.price,
       name: product.name,
       url: product.name,
     };
