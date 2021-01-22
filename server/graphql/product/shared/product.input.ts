@@ -13,6 +13,9 @@ export class CreateProductInput {
 
   @Field(() => Int)
   art: number;
+
+  @Field(() => Int)
+  price: number;
 }
 
 @InputType()

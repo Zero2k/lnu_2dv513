@@ -26,11 +26,20 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateOrderInput {
+  customerEmail: String!
+  customerId: Int!
+  customerName: String!
+  productIds: [Int!]!
+  userId: Int!
+}
+
 input CreateProductInput {
   art: Int!
   description: String!
   img_url: String!
   name: String!
+  price: Int!
 }
 
 type Error {
@@ -68,6 +77,7 @@ type Meta {
 
 type Mutation {
   createCategory(input: CreateCategoryInput!): CategoryResponse!
+  createOrder(input: CreateOrderInput!): OrderResponse!
   createProduct(input: CreateProductInput!): ProductResponse!
   handleProductCategory(input: HandleProductCategoryInput!): ProductResponse!
   handleProducts(input: HandleProductsInput!): HandleProductResponse!
@@ -75,6 +85,28 @@ type Mutation {
   logout: Boolean!
   signIn(input: AuthInput!): UserResponse!
   signUp(input: AuthInput!): UserResponse!
+}
+
+type Order {
+  createdAt: String!
+  customerEmail: String!
+  customerId: Float!
+  customerName: String!
+  id: ID!
+  total: Float!
+  updatedAt: String!
+}
+
+type OrderResponse {
+  errors: [Error!]
+  order: Order!
+}
+
+type OrderRow {
+  amount: Float!
+  createdAt: String!
+  id: ID!
+  updatedAt: String!
 }
 
 type Product {
