@@ -5,6 +5,7 @@ import Breadcrumb from 'components/Breadcrumb';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Heading, HeadingLevel } from 'baseui/heading';
+import { SnackbarProvider, PLACEMENT } from 'baseui/snackbar';
 import { useQuery } from '@apollo/client';
 import { FIND_USER_QUERY } from 'graphql/user';
 import Product from 'components/Product';
@@ -172,7 +173,9 @@ const Company: React.FC = () => {
                 </p>
               </>
             ) : formPart === 2 ? (
-              <OrderForm resellerId={company.id} cart={cart} />
+              <SnackbarProvider placement={PLACEMENT.bottomLeft}>
+                <OrderForm resellerId={company.id} cart={cart} />
+              </SnackbarProvider>
             ) : null}
           </Cell>
           <Cell span={[12]}>

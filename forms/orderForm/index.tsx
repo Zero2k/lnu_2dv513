@@ -6,6 +6,7 @@ import { Button } from 'baseui/button';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { Checkbox, LABEL_PLACEMENT } from 'baseui/checkbox';
+import { useSnackbar } from 'baseui/snackbar';
 import { useMutation } from '@apollo/client';
 import { ORDER_MUTATION } from 'graphql/order';
 
@@ -23,6 +24,7 @@ interface Props {
 function OrderForm({ resellerId, cart }: Props) {
   const [css] = useStyletron();
   const [createOrder] = useMutation(ORDER_MUTATION);
+  const { enqueue } = useSnackbar();
   const {
     register,
     handleSubmit,
@@ -53,7 +55,7 @@ function OrderForm({ resellerId, cart }: Props) {
     const { order, errors } = response.data.createOrder;
 
     if (order && !errors) {
-      console.log(order);
+      enqueue({ message: 'Din order har blivit skapad.' });
     } else {
       errors?.forEach((error) => {
         setError(error.path, { message: error.message });
