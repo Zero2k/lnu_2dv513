@@ -28,7 +28,7 @@ input CreateCategoryInput {
 
 input CreateOrderInput {
   customerEmail: String!
-  customerId: Int!
+  customerId: String!
   customerName: String!
   productIds: [Int!]!
   userId: Int!
@@ -90,7 +90,7 @@ type Mutation {
 type Order {
   createdAt: String!
   customerEmail: String!
-  customerId: Float!
+  customerId: String!
   customerName: String!
   id: ID!
   total: Float!
@@ -99,7 +99,7 @@ type Order {
 
 type OrderResponse {
   errors: [Error!]
-  order: Order!
+  order: Order
 }
 
 type OrderRow {

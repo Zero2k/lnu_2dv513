@@ -4,7 +4,7 @@ import { Error } from '../../shared/shared.response';
 
 @ObjectType()
 export class OrderResponse {
-  @Field(() => Order)
+  @Field(() => Order, { nullable: true })
   order?: Order;
 
   @Field(() => [Error], { nullable: true })

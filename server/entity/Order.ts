@@ -12,8 +12,8 @@ export class Order extends Meta {
   total: number;
 
   @Field()
-  @Column('int')
-  customerId: number;
+  @Column('text')
+  customerId: string;
 
   @Field()
   @Column('text')

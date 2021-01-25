@@ -8,12 +8,12 @@ export class CreateOrderInput {
   @Field(() => [Int])
   productIds: number[];
 
-  @Field(() => Int)
-  customerId: number;
+  @Field()
+  customerId: string;
 
-  @Field(() => String)
+  @Field()
   customerName: string;
 
-  @Field(() => String)
+  @Field()
   customerEmail: string;
 }
