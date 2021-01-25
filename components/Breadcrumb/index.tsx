@@ -7,9 +7,15 @@ interface Props {
   rootRoute: string;
   rootLabel: string;
   currentRoute: string;
+  currentRouteLabel: string;
 }
 
-function Breadcrumb({ rootRoute = '/', rootLabel, currentRoute }: Props) {
+function Breadcrumb({
+  rootRoute = '/',
+  rootLabel,
+  currentRoute,
+  currentRouteLabel,
+}: Props) {
   return (
     <Breadcrumbs
       overrides={{
@@ -23,7 +29,9 @@ function Breadcrumb({ rootRoute = '/', rootLabel, currentRoute }: Props) {
       <Link href={rootRoute} passHref>
         <StyledLink $as="a">{rootLabel}</StyledLink>
       </Link>
-      <span>{currentRoute}</span>
+      <Link href={currentRoute} passHref>
+        <StyledLink $as="a">{currentRouteLabel}</StyledLink>
+      </Link>
     </Breadcrumbs>
   );
 }

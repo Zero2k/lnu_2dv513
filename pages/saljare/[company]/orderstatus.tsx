@@ -34,7 +34,8 @@ const OrderStatus: React.FC = () => {
         <Breadcrumb
           rootRoute="/saljare"
           rootLabel="Återförsäljare"
-          currentRoute={company.name}
+          currentRoute={`/saljare/${company.id}`}
+          currentRouteLabel={company.name}
         />
         <Grid
           gridMargins={0}

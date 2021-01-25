@@ -28,7 +28,8 @@ const Produkt: React.FC = () => {
         <Breadcrumb
           rootRoute="/produkter"
           rootLabel="Produkter"
-          currentRoute="Test"
+          currentRoute="/produkt/1"
+          currentRouteLabel="Test"
         />
         <Card
           headerImage={'https://source.unsplash.com/user/erondu/700x400'}
