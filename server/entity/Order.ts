@@ -23,6 +23,10 @@ export class Order extends Meta {
   @Column('text')
   customerEmail: string;
 
+  @Field()
+  @Column({ type: 'bool', default: false })
+  completed: boolean;
+
   /* Used to query orders based on userId instead of JOIN via user relation */
   @Column({
     name: 'userId',
