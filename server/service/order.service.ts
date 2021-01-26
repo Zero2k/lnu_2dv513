@@ -34,4 +34,14 @@ export class OrderService {
 
     return completeOrder;
   }
+
+  async findAllByUserId(id: number): Promise<Order[]> {
+    const orders = Order.find({
+      where: {
+        userId: id,
+      },
+    });
+
+    return orders;
+  }
 }

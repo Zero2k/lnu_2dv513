@@ -11,7 +11,7 @@ export class OrderRow extends Meta {
   @Column('float')
   amount: number;
 
-  @ManyToOne(() => Order, (order) => order.id)
+  @ManyToOne(() => Order, (order) => order.id, { onDelete: 'CASCADE' })
   order: Order;
 
   @ManyToOne(() => Product, (product) => product.id)

@@ -23,7 +23,12 @@ export class Order extends Meta {
   @Column('text')
   customerEmail: string;
 
-  @ManyToOne(() => User)
+  /* Used to query orders based on userId instead of JOIN via user relation */
+  @Column({
+    name: 'userId',
+  })
+  userId: number;
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   user: User;
 
   @OneToMany(() => OrderRow, (orderRow) => orderRow.order)

@@ -133,6 +133,7 @@ type Query {
   findUserById(userId: Int!): User!
   me: User!
   products: [Product!]!
+  resellerOrders: [Order!]!
   resellers: [User!]!
 }
 
@@ -143,6 +144,7 @@ type User {
   email: String!
   id: ID!
   name: String
+  orders: [Order!]
   phone: String
   products: [Product!]
   updatedAt: String!

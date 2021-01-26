@@ -79,6 +79,15 @@ export class UserService {
     return user;
   }
 
+  async findOrders(id: number): Promise<User | undefined> {
+    const user = await User.findOne({
+      where: { id },
+      relations: ['orders'],
+    });
+
+    return user;
+  }
+
   async findActiveResellers(): Promise<User[]> {
     const users = await User.find({
       where: {

@@ -7,11 +7,13 @@ import {
   BeforeUpdate,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import { Meta } from './Meta';
 import { Product } from './Product';
 import { Role } from '../config/role';
+import { Order } from './Order';
 
 @ObjectType()
 @Entity()
@@ -52,6 +54,9 @@ export class User extends Meta {
   @ManyToMany(() => Product, { onDelete: 'CASCADE' })
   @JoinTable()
   products: Product[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
   private tempPassword: string;
 
