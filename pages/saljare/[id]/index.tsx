@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useStyletron } from 'baseui';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Section from 'components/Section';
 import Breadcrumb from 'components/Breadcrumb';
 import { Grid, Cell } from 'baseui/layout-grid';
@@ -11,17 +13,30 @@ import { FIND_USER_QUERY } from 'graphql/user';
 import Product from 'components/Product';
 import Cart from 'components/Cart';
 import OrderForm from 'forms/orderForm';
-import Link from 'next/link';
+import { getAsInt } from 'utils/getAsInt';
 
 const Company: React.FC = () => {
   const [css, theme] = useStyletron();
+  const router = useRouter();
+  const { id } = router.query;
   const [display, setDisplay] = React.useState(false);
   const [formPart, setFormPart] = React.useState(1);
   const [cart, setCart] = React.useState([]);
 
-  const { data, loading } = useQuery(FIND_USER_QUERY, {
-    variables: { userId: 1 },
+  const companyData = useQuery(FIND_USER_QUERY, {
+    variables: { userId: getAsInt(id) },
+    skip: Number.isNaN(getAsInt(id)),
   });
+
+  const { data, loading } = companyData;
+
+  if (!data || loading) {
+    return (
+      <React.Fragment>
+        <div>Loading...</div>
+      </React.Fragment>
+    );
+  }
 
   const addToCart = (product) => {
     const tempProduct = {
@@ -44,14 +59,6 @@ const Company: React.FC = () => {
     });
     setCart(newCart);
   };
-
-  if (loading) {
-    return (
-      <React.Fragment>
-        <div>Loading...</div>
-      </React.Fragment>
-    );
-  }
 
   const company = data.findUserById;
 
@@ -175,8 +182,19 @@ const Company: React.FC = () => {
               </>
             ) : formPart === 2 ? (
               <SnackbarProvider placement={PLACEMENT.bottomLeft}>
-                <OrderForm resellerId={company.id} cart={cart} />
+                <OrderForm
+                  resellerId={company.id}
+                  cart={cart}
+                  setFormPart={setFormPart}
+                />
               </SnackbarProvider>
+            ) : formPart === 3 ? (
+              <p>
+                Tack för din beställning. Du kan kolla din orderstatus{' '}
+                <Link href={`/saljare/${company.id}/orderstatus`} passHref>
+                  <a>här</a>
+                </Link>
+              </p>
             ) : null}
           </Cell>
           <Cell span={[12]}>

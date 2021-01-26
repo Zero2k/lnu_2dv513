@@ -117,6 +117,15 @@ const Oversikt = () => {
               >
                 <ListItem
                   endEnhancer={() => (
+                    <Button size="compact" kind="secondary" disabled>
+                      Hantera
+                    </Button>
+                  )}
+                >
+                  <ListItemLabel>Översikt</ListItemLabel>
+                </ListItem>
+                <ListItem
+                  endEnhancer={() => (
                     <Link href="/konto/installningar" passHref>
                       <Button $as="a" size="compact" kind="secondary">
                         Hantera
@@ -139,9 +148,11 @@ const Oversikt = () => {
                 </ListItem>
                 <ListItem
                   endEnhancer={() => (
-                    <Button size="compact" kind="secondary">
-                      Hantera
-                    </Button>
+                    <Link href="/konto/bestallningar" passHref>
+                      <Button $as="a" size="compact" kind="secondary">
+                        Hantera
+                      </Button>
+                    </Link>
                   )}
                 >
                   <ListItemLabel>Beställningar</ListItemLabel>

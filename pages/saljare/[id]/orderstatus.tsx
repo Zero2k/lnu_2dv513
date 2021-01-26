@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useStyletron } from 'baseui';
-
+import { useRouter } from 'next/router';
 import Section from 'components/Section';
 import Breadcrumb from 'components/Breadcrumb';
 import { Grid, Cell } from 'baseui/layout-grid';
@@ -8,17 +8,19 @@ import { ListItem, ListItemLabel } from 'baseui/list';
 import { Heading, HeadingLevel } from 'baseui/heading';
 import { useQuery } from '@apollo/client';
 import { FIND_USER_QUERY } from 'graphql/user';
-
-export const sum = (a: number, b: number) => a + b;
+import { getAsInt } from 'utils/getAsInt';
 
 const OrderStatus: React.FC = () => {
   const [css, theme] = useStyletron();
+  const router = useRouter();
+  const { id } = router.query;
   const [display, setDisplay] = React.useState(false);
   const { data, loading } = useQuery(FIND_USER_QUERY, {
-    variables: { userId: 1 },
+    variables: { userId: getAsInt(id) },
+    skip: Number.isNaN(getAsInt(id)),
   });
 
-  if (loading) {
+  if (!data || loading) {
     return (
       <React.Fragment>
         <div>Loading...</div>

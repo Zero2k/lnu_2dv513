@@ -123,3 +123,15 @@ export const FIND_USER_QUERY = gql`
     }
   }
 `;
+
+export const USER_ORDERS_QUERY = gql`
+  query ResellerOrders {
+    resellerOrders {
+      id
+      customerId
+      customerName
+      customerEmail
+      total
+    }
+  }
+`;

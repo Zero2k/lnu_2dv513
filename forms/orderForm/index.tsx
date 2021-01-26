@@ -19,9 +19,10 @@ interface ProfileFormValues {
 interface Props {
   resellerId: string;
   cart: any[];
+  setFormPart: (part: number) => void;
 }
 
-function OrderForm({ resellerId, cart }: Props) {
+function OrderForm({ resellerId, cart, setFormPart }: Props) {
   const [css] = useStyletron();
   const [createOrder] = useMutation(ORDER_MUTATION);
   const { enqueue } = useSnackbar();
@@ -56,6 +57,7 @@ function OrderForm({ resellerId, cart }: Props) {
 
     if (order && !errors) {
       enqueue({ message: 'Din order har blivit skapad.' });
+      setFormPart(3);
     } else {
       errors?.forEach((error) => {
         setError(error.path, { message: error.message });
