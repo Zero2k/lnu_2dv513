@@ -110,6 +110,13 @@ type OrderRow {
   updatedAt: String!
 }
 
+type OrderView {
+  cost: Float!
+  id: Float!
+  price: Float!
+  productName: String!
+}
+
 type Product {
   art: Float!
   category: Category
@@ -131,6 +138,7 @@ type ProductResponse {
 
 type Query {
   categories: [Category!]!
+  findOrderById(orderId: Int!): [OrderView!]!
   findUserById(userId: Int!): User!
   me: User!
   products: [Product!]!
