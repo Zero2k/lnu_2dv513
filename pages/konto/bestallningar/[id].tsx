@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
 import _ from 'lodash';
 import { useStyletron } from 'baseui';
 import { Block } from 'baseui/block';
@@ -6,16 +7,18 @@ import { Heading, HeadingLevel } from 'baseui/heading';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Button } from 'baseui/button';
-import Private from '../../layouts/private';
-import OrderTable from '../../components/OrderTable';
+import Private from '../../../layouts/private';
+import OrderTable from '../../../components/OrderTable';
 import { useQuery } from '@apollo/client';
 import { USER_ORDERS_QUERY } from 'graphql/user';
 import { isServer } from 'utils/isServer';
 import Link from 'next/link';
 import { useIsAuth } from 'utils/useIsAuth';
 
-const Orders = () => {
+const Order = () => {
   useIsAuth();
+  const router = useRouter();
+  const { id } = router.query;
   const orders = useQuery(USER_ORDERS_QUERY, { skip: isServer() });
   const { data, loading } = orders;
   const [css, theme] = useStyletron();
@@ -43,10 +46,7 @@ const Orders = () => {
           gridGutters={[3, 6, 12]}
         >
           <Cell span={[12, 12, 8]}>
-            <HeadingLevel>
-              <Heading styleLevel={4}>Beställningar</Heading>
-              <OrderTable orders={data.resellerOrders} />
-            </HeadingLevel>
+            <OrderTable order={[]} />
           </Cell>
           <Cell span={[12, 12, 4]}>
             <ul
@@ -91,9 +91,11 @@ const Orders = () => {
               </ListItem>
               <ListItem
                 endEnhancer={() => (
-                  <Button size="compact" kind="secondary" disabled>
-                    Hantera
-                  </Button>
+                  <Link href="/konto/bestallningar" passHref>
+                    <Button $as="a" size="compact" kind="secondary">
+                      Hantera
+                    </Button>
+                  </Link>
                 )}
               >
                 <ListItemLabel>Beställningar</ListItemLabel>
@@ -106,6 +108,6 @@ const Orders = () => {
   );
 };
 
-Orders.layout = Private;
+Order.layout = Private;
 
-export default Orders;
+export default Order;

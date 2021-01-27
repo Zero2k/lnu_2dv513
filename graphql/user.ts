@@ -132,6 +132,7 @@ export const USER_ORDERS_QUERY = gql`
       customerName
       customerEmail
       total
+      completed
     }
   }
 `;

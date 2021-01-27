@@ -1,38 +1,51 @@
 import * as React from 'react';
 import { useStyletron } from 'baseui';
-import { Pagination } from 'baseui/pagination';
 import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
+import { Button } from 'baseui/button';
 
 interface Props {
-  orders: any[];
+  order: any[];
 }
 
-function Orders({ orders }: Props) {
+function Order({ order }: Props) {
   const [css, theme] = useStyletron();
-  const [page, setPage] = React.useState(1);
-  const [limit] = React.useState(12);
-
-  const handlePageChange = (nextPage: number) => {
-    if (nextPage < 1) {
-      return;
-    }
-    if (nextPage > Math.ceil(orders.length / limit)) {
-      return;
-    }
-    setPage(nextPage);
-  };
-
-  const window = () => {
-    const min = (page - 1) * limit;
-    return orders.slice(min, min + limit);
-  };
 
   return (
     <React.Fragment>
+      <div
+        className={css({
+          display: 'flex',
+          justifyContent: 'space-between',
+          paddingTop: theme.sizing.scale600,
+          paddingBottom: theme.sizing.scale600,
+        })}
+      >
+        <div
+          className={css({
+            // ...theme.typography.font750
+            fontFamily: theme.typography.font750.fontFamily,
+            fontWeight: theme.typography.font750.fontWeight,
+            fontSize: theme.typography.font750.fontSize,
+            lineHeight: theme.typography.font750.lineHeight,
+          })}
+        >
+          Order - #
+        </div>
+        <Button>
+          <div
+            className={css({
+              paddingLeft: theme.sizing.scale1200,
+              paddingRight: theme.sizing.scale1200,
+            })}
+          >
+            Markera som: Klar
+          </div>
+        </Button>
+      </div>
       <div className={css({ maxHeight: '500px' })}>
         <TableBuilder
-          data={window()}
-          emptyMessage={<h3>Det finns inga produkter i varukorgen.</h3>}
+          data={order}
+          emptyMessage={<h3>Det finns inga order med ID: #.</h3>}
         >
           <TableBuilderColumn header="ID">
             {(row) => row.customerId}
@@ -40,45 +53,18 @@ function Orders({ orders }: Props) {
           <TableBuilderColumn header="Namn">
             {(row) => row.customerName}
           </TableBuilderColumn>
-          <TableBuilderColumn header="E-post">
-            {(row) => row.customerEmail}
+          <TableBuilderColumn header="Pris">
+            {(row) => `${row.customerEmail} kr`}
           </TableBuilderColumn>
-          <TableBuilderColumn header="Totalt">
-            {(row) => `${row.total} kr`}
-          </TableBuilderColumn>
-          <TableBuilderColumn header="Hantera">
-            {(row) => (
-              <div
-                className={css({
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                })}
-              >
-                Visa
-              </div>
-            )}
+          <TableBuilderColumn header="Antal">
+            {(row) => `${row.total} st`}
           </TableBuilderColumn>
         </TableBuilder>
-      </div>
-      <div
-        className={css({
-          paddingTop: theme.sizing.scale600,
-          paddingBottom: theme.sizing.scale600,
-          display: 'flex',
-          justifyContent: 'space-between',
-        })}
-      >
-        <Pagination
-          currentPage={page}
-          numPages={Math.ceil(orders.length / limit)}
-          onPageChange={({ nextPage }) => handlePageChange(nextPage)}
-        />
       </div>
     </React.Fragment>
   );
 }
 
-export default function OrderTable({ orders }: Props) {
-  console.log(orders);
-  return <Orders orders={orders} />;
+export default function OrderTable({ order }: Props) {
+  return <Order order={order} />;
 }
