@@ -4,10 +4,10 @@ import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
 import { Button } from 'baseui/button';
 
 interface Props {
-  order: any[];
+  orderRows: any[];
 }
 
-function Order({ order }: Props) {
+function Order({ orderRows }: Props) {
   const [css, theme] = useStyletron();
 
   return (
@@ -44,20 +44,18 @@ function Order({ order }: Props) {
       </div>
       <div className={css({ maxHeight: '500px' })}>
         <TableBuilder
-          data={order}
+          data={orderRows}
           emptyMessage={<h3>Det finns inga order med ID: #.</h3>}
         >
-          <TableBuilderColumn header="ID">
-            {(row) => row.customerId}
-          </TableBuilderColumn>
+          <TableBuilderColumn header="ID">{(row) => row.id}</TableBuilderColumn>
           <TableBuilderColumn header="Namn">
-            {(row) => row.customerName}
+            {(row) => row.productName}
           </TableBuilderColumn>
           <TableBuilderColumn header="Pris">
-            {(row) => `${row.customerEmail} kr`}
+            {(row) => `${row.price} kr`}
           </TableBuilderColumn>
-          <TableBuilderColumn header="Antal">
-            {(row) => `${row.total} st`}
+          <TableBuilderColumn header="Kostnad">
+            {(row) => `${row.cost} kr`}
           </TableBuilderColumn>
         </TableBuilder>
       </div>
@@ -65,6 +63,6 @@ function Order({ order }: Props) {
   );
 }
 
-export default function OrderTable({ order }: Props) {
-  return <Order order={order} />;
+export default function OrderTable({ orderRows }: Props) {
+  return <Order orderRows={orderRows} />;
 }

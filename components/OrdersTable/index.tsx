@@ -36,11 +36,11 @@ function Orders({ orders }: Props) {
           data={window()}
           emptyMessage={<h3>Du har just nu inga ordrar.</h3>}
         >
-          <TableBuilderColumn header="ID">
-            {(row) => row.customerId}
-          </TableBuilderColumn>
           <TableBuilderColumn header="Namn">
             {(row) => row.customerName}
+          </TableBuilderColumn>
+          <TableBuilderColumn header="Telefon">
+            {(row) => row.customerId}
           </TableBuilderColumn>
           <TableBuilderColumn header="E-post">
             {(row) => row.customerEmail}
@@ -53,7 +53,7 @@ function Orders({ orders }: Props) {
           </TableBuilderColumn>
           <TableBuilderColumn header="Hantera">
             {(row) => (
-              <Link href={`/konto/bestallningar/${row.customerId}`} passHref>
+              <Link href={`/konto/bestallningar/${row.id}`} passHref>
                 <a>Visa</a>
               </Link>
             )}

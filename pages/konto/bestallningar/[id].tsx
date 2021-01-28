@@ -3,24 +3,26 @@ import { useRouter } from 'next/router';
 import _ from 'lodash';
 import { useStyletron } from 'baseui';
 import { Block } from 'baseui/block';
-import { Heading, HeadingLevel } from 'baseui/heading';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Button } from 'baseui/button';
 import Private from '../../../layouts/private';
 import OrderTable from '../../../components/OrderTable';
 import { useQuery } from '@apollo/client';
-import { USER_ORDERS_QUERY } from 'graphql/user';
-import { isServer } from 'utils/isServer';
 import Link from 'next/link';
 import { useIsAuth } from 'utils/useIsAuth';
+import { ORDER_QUERY } from 'graphql/order';
+import { getAsInt } from 'utils/getAsInt';
 
 const Order = () => {
   useIsAuth();
   const router = useRouter();
   const { id } = router.query;
-  const orders = useQuery(USER_ORDERS_QUERY, { skip: isServer() });
-  const { data, loading } = orders;
+  const orderQuery = useQuery(ORDER_QUERY, {
+    variables: { orderId: getAsInt(id) },
+    skip: Number.isNaN(getAsInt(id)),
+  });
+  const { data, loading } = orderQuery;
   const [css, theme] = useStyletron();
 
   if (!data || loading) {
@@ -30,6 +32,9 @@ const Order = () => {
       </React.Fragment>
     );
   }
+
+  const orderRows = data.findOrderRowsById;
+  console.log(orderRows);
 
   return (
     <>
@@ -46,7 +51,7 @@ const Order = () => {
           gridGutters={[3, 6, 12]}
         >
           <Cell span={[12, 12, 8]}>
-            <OrderTable order={[]} />
+            <OrderTable orderRows={orderRows} />
           </Cell>
           <Cell span={[12, 12, 4]}>
             <ul
