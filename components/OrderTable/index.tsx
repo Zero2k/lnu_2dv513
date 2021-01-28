@@ -5,9 +5,11 @@ import { Button } from 'baseui/button';
 
 interface Props {
   orderRows: any[];
+  order?: { id: string; completed: boolean };
+  handleOrder: (id: string) => void;
 }
 
-function Order({ orderRows }: Props) {
+function Order({ orderRows, order, handleOrder }: Props) {
   const [css, theme] = useStyletron();
 
   return (
@@ -29,16 +31,16 @@ function Order({ orderRows }: Props) {
             lineHeight: theme.typography.font750.lineHeight,
           })}
         >
-          Order - #
+          Order - #{order.id}
         </div>
-        <Button>
+        <Button onClick={() => handleOrder(order.id)}>
           <div
             className={css({
               paddingLeft: theme.sizing.scale1200,
               paddingRight: theme.sizing.scale1200,
             })}
           >
-            Markera som: Klar
+            Markera som: {order.completed ? 'Ej Klar' : 'Klar'}
           </div>
         </Button>
       </div>
@@ -63,6 +65,8 @@ function Order({ orderRows }: Props) {
   );
 }
 
-export default function OrderTable({ orderRows }: Props) {
-  return <Order orderRows={orderRows} />;
+export default function OrderTable({ orderRows, order, handleOrder }: Props) {
+  return (
+    <Order orderRows={orderRows} order={order} handleOrder={handleOrder} />
+  );
 }

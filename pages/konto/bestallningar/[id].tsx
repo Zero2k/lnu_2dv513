@@ -5,13 +5,14 @@ import { useStyletron } from 'baseui';
 import { Block } from 'baseui/block';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { ListItem, ListItemLabel } from 'baseui/list';
+import { Heading, HeadingLevel } from 'baseui/heading';
 import { Button } from 'baseui/button';
 import Private from '../../../layouts/private';
 import OrderTable from '../../../components/OrderTable';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import { useIsAuth } from 'utils/useIsAuth';
-import { ORDER_QUERY } from 'graphql/order';
+import { ORDER_QUERY, COMPLETE_ORDER_MUTATION } from 'graphql/order';
 import { getAsInt } from 'utils/getAsInt';
 
 const Order = () => {
@@ -22,6 +23,8 @@ const Order = () => {
     variables: { orderId: getAsInt(id) },
     skip: Number.isNaN(getAsInt(id)),
   });
+
+  const [completeOrder] = useMutation(COMPLETE_ORDER_MUTATION);
   const { data, loading } = orderQuery;
   const [css, theme] = useStyletron();
 
@@ -33,8 +36,25 @@ const Order = () => {
     );
   }
 
-  const orderRows = data.findOrderRowsById;
-  console.log(orderRows);
+  const handleOrder = async (id: string) => {
+    await completeOrder({
+      variables: { orderId: getAsInt(id) },
+      update: async (cache, { data: { completeOrder } }) => {
+        cache.writeQuery({
+          query: ORDER_QUERY,
+          data: {
+            findOrderById: {
+              __typename: 'Order',
+              completed: completeOrder.completed,
+            },
+          },
+        });
+      },
+    });
+    router.push('/konto/bestallningar');
+  };
+
+  const { findOrderRowsById, findOrderById } = data;
 
   return (
     <>
@@ -51,7 +71,15 @@ const Order = () => {
           gridGutters={[3, 6, 12]}
         >
           <Cell span={[12, 12, 8]}>
-            <OrderTable orderRows={orderRows} />
+            <OrderTable
+              orderRows={findOrderRowsById}
+              order={findOrderById}
+              handleOrder={handleOrder}
+            />
+            <HeadingLevel>
+              <Heading styleLevel={4}>Kundöversikt</Heading>
+              <pre>{JSON.stringify(findOrderById, null, 2)}</pre>
+            </HeadingLevel>
           </Cell>
           <Cell span={[12, 12, 4]}>
             <ul

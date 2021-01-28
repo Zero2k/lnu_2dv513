@@ -79,6 +79,5 @@ function Orders({ orders }: Props) {
 }
 
 export default function OrdersTable({ orders }: Props) {
-  console.log(orders);
   return <Orders orders={orders} />;
 }

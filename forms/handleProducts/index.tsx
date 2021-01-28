@@ -64,7 +64,7 @@ function HandleProductsForm({
 
   const onSubmit: SubmitHandler<ProductsFormValues> = async () => {
     const productIds = values.map((item) => parseInt(item.id.toString()));
-    console.log(productIds);
+
     const response = await handleProducts({
       variables: { productIds },
       update: async (cache, { data: { handleProducts } }) => {

@@ -36,5 +36,21 @@ export const ORDER_QUERY = gql`
       price
       cost
     }
+    findOrderById(orderId: $orderId) {
+      id
+      completed
+      customerName
+      customerEmail
+      customerId
+    }
+  }
+`;
+
+export const COMPLETE_ORDER_MUTATION = gql`
+  mutation CompleteOrder($orderId: Int!) {
+    completeOrder(orderId: $orderId) {
+      id
+      completed
+    }
   }
 `;
