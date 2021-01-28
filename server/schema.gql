@@ -76,6 +76,7 @@ type Meta {
 }
 
 type Mutation {
+  completeOrder(orderId: Int!): Order!
   createCategory(input: CreateCategoryInput!): CategoryResponse!
   createOrder(input: CreateOrderInput!): OrderResponse!
   createProduct(input: CreateProductInput!): ProductResponse!

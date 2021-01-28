@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Arg, Int, Authorized } from 'type-graphql';
 import { getManager } from 'typeorm';
 import { Inject } from 'typedi';
 import { OrderService } from '../../../service/order.service';
@@ -11,6 +11,7 @@ export class FindOrderRowsResolver {
   @Inject(() => OrderService)
   orderService: OrderService;
 
+  @Authorized()
   @Query(() => [OrderView])
   async findOrderRowsById(
     @Arg('orderId', () => Int) orderId: number
