@@ -138,7 +138,7 @@ type ProductResponse {
 
 type Query {
   categories: [Category!]!
-  findOrderById(orderId: Int!): [OrderView!]!
+  findOrderRowsById(orderId: Int!): [OrderView!]!
   findUserById(userId: Int!): User!
   me: User!
   products: [Product!]!

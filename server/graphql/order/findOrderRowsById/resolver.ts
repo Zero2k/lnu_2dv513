@@ -7,18 +7,18 @@ import { OrderView } from '../../../entity/OrderView';
 const entityManager = getManager();
 
 @Resolver(OrderView)
-export class FindOrderResolver {
+export class FindOrderRowsResolver {
   @Inject(() => OrderService)
   orderService: OrderService;
 
   @Query(() => [OrderView])
-  async findOrderById(
+  async findOrderRowsById(
     @Arg('orderId', () => Int) orderId: number
   ): Promise<OrderView[]> {
-    const order = await entityManager.find(OrderView, {
+    const orderRows = await entityManager.find(OrderView, {
       id: orderId,
     });
 
-    return order;
+    return orderRows;
   }
 }
