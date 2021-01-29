@@ -143,6 +143,7 @@ type Query {
   findOrderRowsById(orderId: Int!): [OrderView!]!
   findUserById(userId: Int!): User!
   me: User!
+  product(productId: Int!): Product!
   products: [Product!]!
   productsByCategory(category: String!): [Product!]!
   resellerOrders: [Order!]!
