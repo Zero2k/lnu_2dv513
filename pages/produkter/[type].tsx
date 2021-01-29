@@ -3,22 +3,27 @@ import { useStyletron } from 'baseui';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { useQuery } from '@apollo/client';
 import Section from 'components/Section';
-import { PRODUCTS_QUERY } from 'graphql/product';
+import { PRODUCTS_BY_CATEGORY_QUERY } from 'graphql/product';
 import Product from 'components/Product';
+import { useRouter } from 'next/router';
 
 const Type: React.FC = () => {
   const [css, theme] = useStyletron();
-  const productsData = useQuery(PRODUCTS_QUERY);
+  const router = useRouter();
+  const { type } = router.query;
+  const { data, loading } = useQuery(PRODUCTS_BY_CATEGORY_QUERY, {
+    variables: { category: type },
+  });
 
-  const { data, loading } = productsData;
-
-  if (loading) {
+  if (!data || loading) {
     return (
       <React.Fragment>
         <div>Loading...</div>
       </React.Fragment>
     );
   }
+
+  const { productsByCategory } = data;
 
   return (
     <>
@@ -29,7 +34,7 @@ const Type: React.FC = () => {
           gridGaps={[3, 6, 12]}
           gridGutters={[3, 6, 12]}
         >
-          {data.products.map((product) => (
+          {productsByCategory.map((product) => (
             <Cell span={[12, 6, 4]}>
               <Product product={product} />
             </Cell>

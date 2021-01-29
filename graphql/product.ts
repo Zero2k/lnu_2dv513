@@ -29,3 +29,19 @@ export const PRODUCTS_QUERY = gql`
     }
   }
 `;
+
+export const PRODUCTS_BY_CATEGORY_QUERY = gql`
+  query ProductsByCategoru($category: String!) {
+    productsByCategory(category: $category) {
+      id
+      name
+      description
+      price
+      category {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
