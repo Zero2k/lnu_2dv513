@@ -9,6 +9,7 @@ import { PRODUCT_BY_ID_QUERY } from 'graphql/product';
 import Breadcrumb from 'components/Breadcrumb';
 import { useRouter } from 'next/router';
 import { getAsInt } from 'utils/getAsInt';
+import Link from 'next/link';
 
 const Produkt: React.FC = () => {
   const [css, theme] = useStyletron();
@@ -71,13 +72,16 @@ const Produkt: React.FC = () => {
             </ul>
           </StyledBody>
           <StyledAction>
-            <Button
-              overrides={{
-                BaseButton: { style: { width: '100%' } },
-              }}
-            >
-              Se åteförsäljare
-            </Button>
+            <Link href={`/produkt/${product.id}/hitta-saljare`} passHref>
+              <Button
+                $as="a"
+                overrides={{
+                  BaseButton: { style: { width: '100%' } },
+                }}
+              >
+                Se åteförsäljare
+              </Button>
+            </Link>
           </StyledAction>
         </Card>
       </Block>

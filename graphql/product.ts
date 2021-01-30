@@ -51,6 +51,7 @@ export const PRODUCT_BY_ID_QUERY = gql`
     product(productId: $id) {
       id
       name
+      slug
       description
       price
       category {
