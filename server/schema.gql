@@ -142,6 +142,7 @@ type Query {
   findOrderById(orderId: Int!): Order!
   findOrderRowsById(orderId: Int!): [OrderView!]!
   findUserById(userId: Int!): User!
+  findUsersByProduct(productId: Int!): [User!]!
   me: User!
   product(productId: Int!): Product!
   products: [Product!]!

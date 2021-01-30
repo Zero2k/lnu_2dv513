@@ -38,7 +38,7 @@ export class ProductService {
       .getRepository(Product)
       .createQueryBuilder('product')
       .innerJoin('product.category', 'category')
-      .where('category.slug= :category', { category })
+      .where('category.slug = :category', { category })
       .getMany();
 
     return products;

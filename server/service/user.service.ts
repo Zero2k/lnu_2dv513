@@ -2,7 +2,9 @@ import { Service } from 'typedi';
 import { User } from '../entity/User';
 import { Product } from '../entity/Product';
 import { AuthInput, HandleProfile } from '../graphql/user/shared/user.input';
-import { IsNull, Not } from 'typeorm';
+import { IsNull, Not, getManager } from 'typeorm';
+
+const entityManager = getManager();
 
 @Service()
 export class UserService {
@@ -77,6 +79,17 @@ export class UserService {
     });
 
     return user;
+  }
+
+  async findByProductId(id: number): Promise<User[]> {
+    const users = await entityManager
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .innerJoin('user.products', 'products')
+      .where('products.id = :id', { id })
+      .getMany();
+
+    return users;
   }
 
   async findOrders(id: number): Promise<User | undefined> {
