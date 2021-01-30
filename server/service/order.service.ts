@@ -45,9 +45,12 @@ export class OrderService {
     return orders;
   }
 
-  async findByCustomerId(id: string): Promise<Order> {
+  async findByCustomerId(
+    resellerId: number,
+    customerId: string
+  ): Promise<Order> {
     const order = await Order.findOne({
-      where: { customerId: id },
+      where: { userId: resellerId, customerId },
     });
 
     return order;
