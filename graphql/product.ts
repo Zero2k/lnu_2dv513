@@ -45,3 +45,19 @@ export const PRODUCTS_BY_CATEGORY_QUERY = gql`
     }
   }
 `;
+
+export const PRODUCT_BY_ID_QUERY = gql`
+  query ProductById($id: Int!) {
+    product(productId: $id) {
+      id
+      name
+      description
+      price
+      category {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;

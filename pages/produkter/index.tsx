@@ -12,13 +12,15 @@ const Products: React.FC = () => {
 
   const { data, loading } = productsData;
 
-  if (loading) {
+  if (!data || loading) {
     return (
       <React.Fragment>
         <div>Loading...</div>
       </React.Fragment>
     );
   }
+
+  const { products } = data;
 
   return (
     <>
@@ -29,7 +31,7 @@ const Products: React.FC = () => {
           gridGaps={[3, 6, 12]}
           gridGutters={[3, 6, 12]}
         >
-          {data.products.map((product) => (
+          {products.map((product) => (
             <Cell span={[12, 6, 4]} key={product.id}>
               <Product product={product} />
             </Cell>

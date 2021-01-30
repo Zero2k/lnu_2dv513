@@ -5,22 +5,31 @@ import { Block } from 'baseui/block';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { Button } from 'baseui/button';
-import { PRODUCTS_QUERY } from 'graphql/product';
+import { PRODUCT_BY_ID_QUERY } from 'graphql/product';
 import Breadcrumb from 'components/Breadcrumb';
+import { useRouter } from 'next/router';
+import { getAsInt } from 'utils/getAsInt';
 
 const Produkt: React.FC = () => {
   const [css, theme] = useStyletron();
-  const productsData = useQuery(PRODUCTS_QUERY);
+  const router = useRouter();
+  const { id } = router.query;
+  const productData = useQuery(PRODUCT_BY_ID_QUERY, {
+    variables: { id: getAsInt(id) },
+    skip: Number.isNaN(getAsInt(id)),
+  });
 
-  const { data, loading } = productsData;
+  const { data, loading } = productData;
 
-  if (loading) {
+  if (!data || loading) {
     return (
       <React.Fragment>
         <div>Loading...</div>
       </React.Fragment>
     );
   }
+
+  const { product } = data;
 
   return (
     <>
@@ -36,9 +45,7 @@ const Produkt: React.FC = () => {
           title="Test"
         >
           <StyledBody>
-            Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla ornare
-            faucibus ex, non facilisis nisl. Proin ut dui sed metus pharetra
-            hend rerit vel non mi. Nulla ornare faucibus ex, non facilisis nisl.
+            {product.description}
             <ul
               className={css({
                 paddingLeft: 0,
@@ -46,13 +53,17 @@ const Produkt: React.FC = () => {
               })}
             >
               <ListItem
-                endEnhancer={() => <ListItemLabel>399 kr</ListItemLabel>}
+                endEnhancer={() => (
+                  <ListItemLabel>{product.price} kr</ListItemLabel>
+                )}
                 sublist
               >
                 <ListItemLabel sublist>Pris:</ListItemLabel>
               </ListItem>
               <ListItem
-                endEnhancer={() => <ListItemLabel>Test</ListItemLabel>}
+                endEnhancer={() => (
+                  <ListItemLabel>{product.category.name}</ListItemLabel>
+                )}
                 sublist
               >
                 <ListItemLabel sublist>Kategori:</ListItemLabel>

@@ -28,6 +28,8 @@ const Orders = () => {
     );
   }
 
+  const { resellerOrders } = data;
+
   return (
     <>
       <Block
@@ -45,7 +47,7 @@ const Orders = () => {
           <Cell span={[12, 12, 8]}>
             <HeadingLevel>
               <Heading styleLevel={4}>Beställningar</Heading>
-              <OrdersTable orders={data.resellerOrders} />
+              <OrdersTable orders={resellerOrders} />
             </HeadingLevel>
           </Cell>
           <Cell span={[12, 12, 4]}>

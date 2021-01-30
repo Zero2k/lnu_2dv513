@@ -26,9 +26,7 @@ const Product = ({ product, addCart }: Props) => {
   return (
     <Card title={product.name}>
       <StyledBody>
-        Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla ornare
-        faucibus ex, non facilisis nisl. Proin ut dui sed metus pharetra hend
-        rerit vel non mi. Nulla ornare faucibus ex, non facilisis nisl.
+        {product.description}
         <ul
           className={css({
             paddingLeft: 0,

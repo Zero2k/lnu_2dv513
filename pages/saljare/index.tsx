@@ -12,13 +12,15 @@ const Resellers: React.FC = () => {
 
   const { data, loading } = resellersData;
 
-  if (loading) {
+  if (!data || loading) {
     return (
       <React.Fragment>
         <div>Loading...</div>
       </React.Fragment>
     );
   }
+
+  const { resellers } = data;
 
   return (
     <>
@@ -29,7 +31,7 @@ const Resellers: React.FC = () => {
           gridGaps={[3, 6, 12]}
           gridGutters={[3, 6, 12]}
         >
-          {data.resellers.map((reseller) => (
+          {resellers.map((reseller) => (
             <Cell span={[12, 6, 4]} key={reseller.id}>
               <Reseller reseller={reseller} />
             </Cell>
