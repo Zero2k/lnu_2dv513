@@ -136,3 +136,18 @@ export const USER_ORDERS_QUERY = gql`
     }
   }
 `;
+
+export const USERS_WITH_PRODUCT_ID_QUERY = gql`
+  query FindResellersProductId($productId: Int!) {
+    findUsersByProduct(productId: $productId) {
+      id
+      name
+      address
+      zip
+      city
+      products {
+        id
+      }
+    }
+  }
+`;
