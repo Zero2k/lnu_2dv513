@@ -8,6 +8,7 @@ import { ListItem, ListItemLabel } from 'baseui/list';
 import { Heading, HeadingLevel } from 'baseui/heading';
 import { useQuery } from '@apollo/client';
 import { FIND_USER_QUERY } from 'graphql/user';
+import OrderStatusForm from 'forms/orderStatus';
 import { getAsInt } from 'utils/getAsInt';
 
 const OrderStatus: React.FC = () => {
@@ -15,6 +16,7 @@ const OrderStatus: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const [display, setDisplay] = React.useState(false);
+  const [orderStatus, setOrderStatus] = React.useState({});
   const { data, loading } = useQuery(FIND_USER_QUERY, {
     variables: { userId: getAsInt(id) },
     skip: Number.isNaN(getAsInt(id)),
@@ -119,7 +121,12 @@ const OrderStatus: React.FC = () => {
           <Cell span={[12, 8]}>
             <HeadingLevel>
               <Heading styleLevel={5}>Orderstatus</Heading>
+              <OrderStatusForm
+                resellerId={company.id}
+                setOrderStatus={setOrderStatus}
+              />
             </HeadingLevel>
+            <pre>{JSON.stringify(orderStatus, null, 2)}</pre>
           </Cell>
         </Grid>
       </Section>

@@ -54,3 +54,12 @@ export const COMPLETE_ORDER_MUTATION = gql`
     }
   }
 `;
+
+export const CHECK_ORDERSTATUS_QUERY = gql`
+  query FindCustomerOrder($resellerId: Int!, $customerId: String!) {
+    findCustomerOrder(resellerId: $resellerId, customerId: $customerId) {
+      id
+      completed
+    }
+  }
+`;
