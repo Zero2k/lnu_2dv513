@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "nodemon --exec ts-node server/index.ts",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "seed": "ts-node server/db/seed.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
