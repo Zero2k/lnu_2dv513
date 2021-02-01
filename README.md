@@ -1,23 +1,38 @@
 # Database Theory - 2dv513
 
-This example features how yo use a different styling solution than [styled-jsx](https://github.com/zeit/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styletron](https://github.com/rtsao/styletron).
+## Stack:
 
-For this purpose we are extending the `<Document />` and injecting the server side rendered styles into the `<head>`.
+- NextJS
+- TypeScript
+- BaseUI
+- GraphQL
+- TypeORM
+- ExpressJS
+- PostgresSQL
 
-## Deploy your own
+## Requirements:
 
-Deploy the example using [Vercel](https://vercel.com):
+- Redis
+- Postgres
+- NodeJS
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/vercel/next.js/tree/canary/examples/with-styletron)
+## Getting started:
 
-## How to use
+Ensure that you have redis and postgres installed and running.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+1. Create a postgres database named: db_project. Username, password and port can be configured in `.env`.
+2. If everything is configured correctly, you should be able to start the application using: `yarn dev` or `npm run dev`.
+3. Once the application is connected to redis and postgres, you should stop the server and run: `yarn run seed` or `npm run seed` which will create all product categories and some default products.
+4. Start the application after executing the seed command.
+5. Visist [localhost:3000](http://localhost:3000) to access the application.
 
-```bash
-npx create-next-app --example with-styletron with-styletron-app
-# or
-yarn create next-app --example with-styletron with-styletron-app
-```
+## Account:
 
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+The seed command / file create a test user which you can use to login and test the application:
+
+Username: test@test.com
+Password: test@test.com
+
+## GraphQL
+
+Visit [localhost:3000/graphql](http://localhost:3000/graphql) to access GraphQL Playground and view all available queries, mutations and types.
