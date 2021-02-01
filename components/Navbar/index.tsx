@@ -36,7 +36,7 @@ export default function Navbar({ user }) {
         },
         {
           label: 'Fyrverkeritårtor',
-          info: { link: '/produkter/fyrverkeritartor' },
+          info: { link: '/produkter/fyreverkeritartor' },
         },
         {
           label: 'Proffsfyrverkerier',
@@ -44,11 +44,11 @@ export default function Navbar({ user }) {
         },
         {
           label: 'Inomhus & Tomtebloss',
-          info: { link: '/produkter/innomhus-tomtebloss' },
+          info: { link: '/produkter/inomhus-and-tomtebloss' },
         },
         {
           label: 'Markpjäser / Airbombs',
-          info: { link: '/produkter/markpjaser-airbombs' },
+          info: { link: '/produkter/markpjaser-and-airbombs' },
         },
         {
           label: 'Övrigt',
