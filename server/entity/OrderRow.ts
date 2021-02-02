@@ -8,6 +8,10 @@ import { Order } from './Order';
 @Entity()
 export class OrderRow extends Meta {
   @Field()
+  @Column('int')
+  quantity: number;
+
+  @Field()
   @Column('float')
   amount: number;
 

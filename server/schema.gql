@@ -108,6 +108,7 @@ type OrderRow {
   amount: Float!
   createdAt: String!
   id: ID!
+  quantity: Float!
   updatedAt: String!
 }
 
@@ -116,6 +117,7 @@ type OrderView {
   id: Float!
   price: Float!
   productName: String!
+  rowId: Float!
 }
 
 type Product {

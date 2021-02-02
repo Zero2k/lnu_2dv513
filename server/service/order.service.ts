@@ -24,7 +24,8 @@ export class OrderService {
       order.total += product.price * quantity;
 
       await OrderRow.create({
-        amount: product.price * quantity,
+        quantity,
+        amount: product.price,
         product,
         order,
       }).save();

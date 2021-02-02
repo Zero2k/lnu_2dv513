@@ -10,17 +10,23 @@ import { Product } from './Product';
     connection
       .createQueryBuilder()
       .select('order.id', 'id')
+      .addSelect('order_row.id', 'rowId')
       .addSelect('product.name', 'productName')
       .addSelect('product.price', 'price')
-      .addSelect('order_row.amount', 'cost')
+      .addSelect('SUM(order_row.amount * order_row.quantity)', 'cost')
       .from(Order, 'order')
       .leftJoin(OrderRow, 'order_row', 'order_row.orderId = order.id')
-      .leftJoin(Product, 'product', 'order_row.productId = product.id'),
+      .leftJoin(Product, 'product', 'order_row.productId = product.id')
+      .groupBy('order.id, order_row.id, product.name, product.price'),
 })
 export class OrderView {
   @Field()
   @ViewColumn()
   id: number;
+
+  @Field()
+  @ViewColumn()
+  rowId: number;
 
   @Field()
   @ViewColumn()
