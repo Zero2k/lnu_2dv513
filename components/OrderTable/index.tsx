@@ -49,7 +49,9 @@ function Order({ orderRows, order, handleOrder }: Props) {
           data={orderRows}
           emptyMessage={<h3>Det finns inga order med ID: #.</h3>}
         >
-          <TableBuilderColumn header="ID">{(row) => row.id}</TableBuilderColumn>
+          <TableBuilderColumn header="ID">
+            {(row) => row.rowId}
+          </TableBuilderColumn>
           <TableBuilderColumn header="Namn">
             {(row) => row.productName}
           </TableBuilderColumn>

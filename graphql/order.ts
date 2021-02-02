@@ -31,7 +31,7 @@ export const ORDER_MUTATION = gql`
 export const ORDER_QUERY = gql`
   query FindOrderRowsById($orderId: Int!) {
     findOrderRowsById(orderId: $orderId) {
-      id
+      rowId
       productName
       price
       cost
