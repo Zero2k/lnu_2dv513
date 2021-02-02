@@ -2,11 +2,11 @@
 
 ## Stack:
 
-- NextJS
+- [NextJS](https://nextjs.org/)
 - TypeScript
-- BaseUI
-- GraphQL
-- TypeORM
+- [BaseUI](https://baseweb.design/)
+- [GraphQL Apollo](https://www.apollographql.com/docs/) (Server & Client)
+- [TypeORM](https://typeorm.io/)
 - ExpressJS
 - PostgresSQL
 
@@ -20,7 +20,7 @@
 
 Ensure that you have redis and postgres installed and running.
 
-1. Create a postgres database named: db_project. Username, password and port can be configured in `.env`.
+1. Create a postgres database. Update database name, username, password and port in `.env`.
 2. If everything is configured correctly, you should be able to start the application using: `yarn dev` or `npm run dev`.
 3. Once the application is connected to redis and postgres, you should stop the server and run: `yarn run seed` or `npm run seed` which will create all product categories and some default products.
 4. Start the application after executing the seed command.
