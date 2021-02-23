@@ -11,8 +11,8 @@ export class CategoryResolver {
 
   @FieldResolver(() => [Product], { nullable: true })
   async products(@Root() rootCategory: Category): Promise<Product[]> {
-    const category = await this.categoryService.findProducts(rootCategory.id);
+    const products = await this.categoryService.findProducts(rootCategory.id);
 
-    return category.products;
+    return products;
   }
 }
