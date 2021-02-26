@@ -39,11 +39,11 @@ const Produkt: React.FC = () => {
           rootRoute="/produkter"
           rootLabel="Produkter"
           currentRoute="/produkt/1"
-          currentRouteLabel="Test"
+          currentRouteLabel={product.name}
         />
         <Card
           headerImage={'https://source.unsplash.com/user/erondu/700x400'}
-          title="Test"
+          title={product.name}
         >
           <StyledBody>
             {product.description}

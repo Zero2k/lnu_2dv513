@@ -20,17 +20,18 @@ export class CategoryService {
 
     return category; */
     const category = await getConnection().query(
-      `SELECT c FROM category WHERE c.id = $1`,
+      `SELECT category.* FROM category WHERE category.id = $1`,
       [id]
     );
 
-    return category;
+    return category[0];
   }
 
   async findAll(): Promise<Category[]> {
-    /* const categories = await Category.find(); */
+    /* const categories = await Category.find();
 
-    const categories = await getConnection().query(`SELECT * FROM category;`);
+    return categories; */
+    const categories = await getConnection().query(`SELECT * FROM category`);
 
     return categories;
   }

@@ -17,8 +17,10 @@ export class CompleteOrderResolver {
     /* User session.userId to only allow orders to be completed by a logged in reseller / user */
     const order = await this.orderService.findById(orderId, session.userId);
 
-    order.completed = !order.completed;
-    const updatedOrder = await order.save();
+    const updatedOrder = await this.orderService.toggleComplete(
+      order.id,
+      !order.completed
+    );
 
     return updatedOrder;
   }

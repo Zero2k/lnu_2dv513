@@ -4,6 +4,7 @@ import { Order } from '../entity/Order';
 import { CreateOrderInput } from '../graphql/order/shared/order.input';
 import { Product } from '../entity/Product';
 import { OrderRow } from '../entity/OrderRow';
+import { getConnection } from 'typeorm';
 
 @Service()
 export class OrderService {
@@ -37,11 +38,17 @@ export class OrderService {
   }
 
   async findAllByUserId(id: number): Promise<Order[]> {
-    const orders = await Order.find({
+    /* const orders = await Order.find({
       where: {
         userId: id,
       },
     });
+
+    return orders; */
+    const orders = await getConnection().query(
+      `SELECT "order".* FROM "order" WHERE "order"."userId" = $1`,
+      [id]
+    );
 
     return orders;
   }
@@ -50,16 +57,37 @@ export class OrderService {
     resellerId: number,
     customerId: string
   ): Promise<Order> {
-    const order = await Order.findOne({
+    /* const order = await Order.findOne({
       where: { userId: resellerId, customerId },
     });
 
-    return order;
+    return order; */
+    const order = await getConnection().query(
+      `SELECT "order".* FROM "order" WHERE "order"."userId" = $1 AND "order"."customerId" = $2`,
+      [resellerId, customerId]
+    );
+
+    return order[0];
   }
 
   async findById(id: number, userId: number): Promise<Order> {
-    const order = await Order.findOne({ where: { id, userId } });
+    /* const order = await Order.findOne({ where: { id, userId } });
 
-    return order;
+    return order; */
+    const order = await getConnection().query(
+      `SELECT "order".* FROM "order" WHERE "order"."id" = $1 AND "order"."userId" = $2`,
+      [id, userId]
+    );
+
+    return order[0];
+  }
+
+  async toggleComplete(id: number, status: boolean): Promise<Order> {
+    const order = await getConnection().query(
+      `UPDATE "order" SET completed = $2 WHERE "order"."id" = $1 RETURNING *`,
+      [id, status]
+    );
+
+    return order[0][0];
   }
 }

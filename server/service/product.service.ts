@@ -1,6 +1,7 @@
-import { getManager } from 'typeorm';
+import { getManager, getConnection } from 'typeorm';
 import { Service } from 'typedi';
 import { Product } from '../entity/Product';
+import { Category } from '../entity/Category';
 import { CreateProductInput } from '../graphql/product/shared/product.input';
 
 const entityManager = getManager();
@@ -14,21 +15,38 @@ export class ProductService {
   }
 
   async findById(id: number): Promise<Product> {
-    const product = await Product.findOne({
+    /* const product = await Product.findOne({
       where: { id },
     });
 
-    return product;
+    return product; */
+    const product = await getConnection().query(
+      `SELECT product.* FROM product WHERE product.id = $1`,
+      [id]
+    );
+
+    return product[0];
   }
 
   async findByIds(ids: number[]): Promise<Product[]> {
-    const products = await Product.findByIds(ids);
+    /* const products = await Product.findByIds(ids);
+
+    return products; */
+    const products = await getConnection().query(
+      `SELECT product.* FROM product WHERE product.id = ANY ($1)`,
+      [ids]
+    );
 
     return products;
   }
 
   async findAll(): Promise<Product[]> {
-    const products = await Product.find();
+    /* const products = await Product.find();
+
+    return products; */
+    const products = await getConnection().query(
+      `SELECT product.* FROM product`
+    );
 
     return products;
   }
@@ -44,12 +62,12 @@ export class ProductService {
     return products;
   }
 
-  async findCategory(id: number): Promise<Product> {
+  async findCategory(id: number): Promise<Category> {
     const product = await Product.findOne({
       where: { id },
       relations: ['category'],
     });
 
-    return product;
+    return product.category;
   }
 }
