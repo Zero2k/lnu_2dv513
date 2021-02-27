@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { User } from '../entity/User';
 import { Product } from '../entity/Product';
 import { AuthInput, HandleProfile } from '../graphql/user/shared/user.input';
-import { IsNull, Not, getManager } from 'typeorm';
+import { /* IsNull, Not, */ getManager, getConnection } from 'typeorm';
 
 const entityManager = getManager();
 
@@ -50,26 +50,43 @@ export class UserService {
   }
 
   async findOne(): Promise<User | undefined> {
-    const userData = await User.findOne();
+    /* const userData = await User.findOne();
+
+    return userData; */
+    const userData = await getConnection().query(
+      `SELECT "user".* FROM "user" LIMIT 1`
+    );
 
     return userData;
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
     const lowerCaseEmail = email.toLowerCase().trim();
-    const user = await User.findOne({
+    /* const user = await User.findOne({
       where: { email: lowerCaseEmail },
     });
 
-    return user;
+    return user; */
+    const user = await getConnection().query(
+      `SELECT "user".* FROM "user" WHERE "user"."email" = $1`,
+      [lowerCaseEmail]
+    );
+
+    return user[0];
   }
 
   async findById(id: number): Promise<User | undefined> {
-    const user = await User.findOne({
+    /* const user = await User.findOne({
       where: { id },
     });
 
-    return user;
+    return user; */
+    const user = await getConnection().query(
+      `SELECT "user".* FROM "user" WHERE "user"."id" = $1`,
+      [id]
+    );
+
+    return user[0];
   }
 
   async findProducts(id: number): Promise<User | undefined> {
@@ -102,7 +119,7 @@ export class UserService {
   }
 
   async findActiveResellers(): Promise<User[]> {
-    const users = await User.find({
+    /* const users = await User.find({
       where: {
         name: Not(IsNull()),
         phone: Not(IsNull()),
@@ -114,14 +131,33 @@ export class UserService {
       order: { name: 'ASC' },
     });
 
+    return users; */
+    const users = await getConnection().query(
+      `SELECT "user".* FROM "user" 
+        WHERE "user"."name" IS NOT NULL 
+        AND "user"."phone" IS NOT NULL 
+        AND "user"."address" IS NOT NULL 
+        AND "user"."zip" IS NOT NULL 
+        AND "user"."city" IS NOT NULL 
+        AND "user"."active" = TRUE 
+        ORDER BY "user"."name" ASC;`
+    );
+
     return users;
   }
 
   async checkActiveUserExists(input: { email: string }): Promise<Boolean> {
-    const userData = await User.findOne({
+    /* const userData = await User.findOne({
       where: { email: input.email },
     });
 
-    return userData ? true : false;
+    return userData ? true : false; */
+    const lowerCaseEmail = input.email.toLowerCase().trim();
+    const user = await getConnection().query(
+      `SELECT "user".* FROM "user" WHERE "user"."email" = $1`,
+      [lowerCaseEmail]
+    );
+
+    return user[0] ? true : false;
   }
 }

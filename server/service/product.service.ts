@@ -63,11 +63,17 @@ export class ProductService {
   }
 
   async findCategory(id: number): Promise<Category> {
-    const product = await Product.findOne({
+    /* const product = await Product.findOne({
       where: { id },
       relations: ['category'],
     });
 
-    return product.category;
+    return product.category; */
+    const category = await getConnection().query(
+      `SELECT category.* FROM category LEFT JOIN product ON product."categoryId" = category.id WHERE product.id = $1`,
+      [id]
+    );
+
+    return category[0];
   }
 }
