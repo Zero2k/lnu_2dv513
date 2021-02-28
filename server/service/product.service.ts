@@ -8,6 +8,7 @@ const entityManager = getManager();
 
 @Service()
 export class ProductService {
+  /* Used to test / create product via GraphQL Playground (Not used in the app itself) */
   async create(input: CreateProductInput): Promise<Product> {
     const productData = await Product.create(input).save();
 

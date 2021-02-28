@@ -11,8 +11,8 @@ export class ProductsResolver {
 
   @FieldResolver(() => [Product], { nullable: true })
   async products(@Root() rootUser: User): Promise<Product[]> {
-    const user = await this.userService.findProducts(rootUser.id);
+    const products = await this.userService.findProducts(rootUser.id);
 
-    return user.products;
+    return products;
   }
 }

@@ -89,13 +89,19 @@ export class UserService {
     return user[0];
   }
 
-  async findProducts(id: number): Promise<User | undefined> {
-    const user = await User.findOne({
+  async findProducts(id: number): Promise<Product[]> {
+    /* const user = await User.findOne({
       where: { id },
       relations: ['products'],
     });
 
-    return user;
+    return user; */
+    const products = await getConnection().query(
+      `SELECT product.* FROM "user_products_product" LEFT JOIN product ON "user_products_product"."productId" = product.id WHERE "user_products_product"."userId" = $1`,
+      [id]
+    );
+
+    return products;
   }
 
   async findByProductId(id: number): Promise<User[]> {
