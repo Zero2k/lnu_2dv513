@@ -17,7 +17,7 @@ export class UserService {
   async handleProfile(id: number, input: HandleProfile): Promise<User> {
     const userData = await this.findById(id);
 
-    userData.name = !input.name ? userData.name : input.name;
+    /* userData.name = !input.name ? userData.name : input.name;
     userData.phone = !input.phone ? userData.phone : input.phone;
     userData.address = !input.address ? userData.address : input.address;
     userData.zip = !input.zip ? userData.zip : input.zip;
@@ -25,7 +25,20 @@ export class UserService {
 
     const updateUser = await userData.save();
 
-    return updateUser;
+    return updateUser; */
+    const name = !input.name ? userData.name : input.name;
+    const phone = !input.phone ? userData.phone : input.phone;
+    const address = !input.address ? userData.address : input.address;
+    const zip = !input.zip ? userData.zip : input.zip;
+    const city = !input.city ? userData.city : input.city;
+    const updateUser = await getConnection().query(
+      `UPDATE "user" 
+      SET "name" = $1, "phone" = $2, "address" = $3, "zip" = $4, "city" = $5 
+      WHERE "user"."id" = $6 RETURNING *`,
+      [name, phone, address, zip, city, id]
+    );
+
+    return updateUser[0][0];
   }
 
   async login(input: AuthInput): Promise<User | undefined> {
