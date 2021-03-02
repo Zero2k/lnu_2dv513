@@ -56,6 +56,7 @@ export class UserService {
     return userData;
   }
 
+  /* TODO:UPDATE WITH SQL */
   async handleProducts(
     id: number,
     products: Product[]

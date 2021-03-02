@@ -1,10 +1,10 @@
-import { getManager, getConnection } from 'typeorm';
+import { /* getManager, */ getConnection } from 'typeorm';
 import { Service } from 'typedi';
 import { Product } from '../entity/Product';
 import { Category } from '../entity/Category';
 import { CreateProductInput } from '../graphql/product/shared/product.input';
 
-const entityManager = getManager();
+/* const entityManager = getManager(); */
 
 @Service()
 export class ProductService {
@@ -53,12 +53,18 @@ export class ProductService {
   }
 
   async findByCategory(category: string): Promise<Product[]> {
-    const products = await entityManager
+    /* const products = await entityManager
       .getRepository(Product)
       .createQueryBuilder('product')
       .innerJoin('product.category', 'category')
       .where('category.slug = :category', { category })
       .getMany();
+
+    return products; */
+    const products = await getConnection().query(
+      `SELECT product.* FROM product INNER JOIN category ON category."id" = product."categoryId" WHERE category."slug" = $1`,
+      [category]
+    );
 
     return products;
   }

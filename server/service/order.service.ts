@@ -8,6 +8,7 @@ import { getConnection } from 'typeorm';
 
 @Service()
 export class OrderService {
+  /* TODO:UPDATE WITH SQL */
   async create(input: CreateOrderInput): Promise<Order> {
     const user = await User.findOne({ id: input.userId });
     const products = await Product.findByIds(input.productIds);
