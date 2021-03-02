@@ -99,9 +99,7 @@ const Company: React.FC = () => {
                   endEnhancer={() => (
                     <ListItemLabel>
                       {display ? (
-                        <a href="mailto:fyrverkeri@koksland.se">
-                          {company.email}
-                        </a>
+                        <a href={`mailto:${company.email}`}>{company.email}</a>
                       ) : (
                         <button onClick={() => setDisplay(true)}>
                           Visa e-post

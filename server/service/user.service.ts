@@ -2,16 +2,25 @@ import { Service } from 'typedi';
 import { User } from '../entity/User';
 import { Product } from '../entity/Product';
 import { AuthInput, HandleProfile } from '../graphql/user/shared/user.input';
-import { /* IsNull, Not, */ getManager, getConnection } from 'typeorm';
+import { /* IsNull, Not, */ /* getManager, */ getConnection } from 'typeorm';
+import { hash } from 'bcryptjs';
+import { Order } from 'server/entity/Order';
 
-const entityManager = getManager();
+/* const entityManager = getManager(); */
 
 @Service()
 export class UserService {
   async create(input: AuthInput): Promise<User> {
-    const userData = await User.create(input).save();
+    /* const userData = await User.create(input).save();
 
-    return userData;
+    return userData; */
+    const hashPassword = await hash(input.password, 10);
+    const userData = await getConnection().query(
+      `INSERT INTO "user" ("email", "password") VALUES ($1, $2) RETURNING *`,
+      [input.email, hashPassword]
+    );
+
+    return userData[0];
   }
 
   async handleProfile(id: number, input: HandleProfile): Promise<User> {
@@ -118,23 +127,36 @@ export class UserService {
   }
 
   async findByProductId(id: number): Promise<User[]> {
-    const users = await entityManager
+    /* const users = await entityManager
       .getRepository(User)
       .createQueryBuilder('user')
       .innerJoin('user.products', 'products')
       .where('products.id = :id', { id })
       .getMany();
 
+    return users; */
+    const users = await getConnection().query(
+      `SELECT "user".* FROM "user" INNER JOIN user_products_product ON "user_products_product"."userId" = "user"."id" WHERE 
+      "user_products_product"."productId" = $1`,
+      [id]
+    );
+
     return users;
   }
 
-  async findOrders(id: number): Promise<User | undefined> {
-    const user = await User.findOne({
+  async findOrders(id: number): Promise<Order[] | undefined> {
+    /* const user = await User.findOne({
       where: { id },
       relations: ['orders'],
     });
 
-    return user;
+    return user; */
+    const orders = await getConnection().query(
+      `SELECT "order".* FROM "user" LEFT JOIN "order" ON "order"."userId" = "user"."id" WHERE "user"."id" = $1`,
+      [id]
+    );
+
+    return orders;
   }
 
   async findActiveResellers(): Promise<User[]> {
