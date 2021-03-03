@@ -1,8 +1,10 @@
 import { gql } from '@apollo/client';
 
 export const HANDLE_PRODUCTS = gql`
-  mutation HandleProducts($productIds: [Int!]!) {
-    handleProducts(input: { productIds: $productIds }) {
+  mutation HandleProducts($productIds: [Int!]!, $deleteAction: Boolean!) {
+    handleProducts(
+      input: { productIds: $productIds, deleteAction: $deleteAction }
+    ) {
       products {
         id
       }

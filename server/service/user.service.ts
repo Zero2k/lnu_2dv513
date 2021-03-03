@@ -59,9 +59,11 @@ export class UserService {
   /* TODO:UPDATE WITH SQL */
   async handleProducts(
     id: number,
-    products: Product[]
-  ): Promise<User | undefined> {
-    const userData = await this.findById(id);
+    products: Product[],
+    deleteAction: boolean
+  ): Promise<Product[]> {
+    const user = await this.findById(id);
+    /* const userData = await User.findOne(id);
 
     if (!userData.active) {
       userData.active = true;
@@ -69,7 +71,33 @@ export class UserService {
     userData.products = products;
     userData.save();
 
-    return userData;
+    return userData; */
+
+    /* if (!user.active) {
+      TODO:SET USER TO ACTIVE
+    } */
+
+    const ids = products.map((product) => product.id);
+    if (deleteAction) {
+      await getConnection().query(
+        `DELETE FROM "user_products_product" WHERE "user_products_product"."userId" = $2 AND NOT "user_products_product"."productId" = ANY ($1)`,
+        [ids, user.id]
+      );
+    } else {
+      products.forEach(async (product) => {
+        await getConnection().query(
+          `INSERT INTO "user_products_product" ("productId", "userId") VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+          [product.id, user.id]
+        );
+      });
+    }
+
+    const productsData = await getConnection().query(
+      `SELECT product.* FROM "user_products_product" LEFT JOIN product ON "user_products_product"."productId" = product.id WHERE "user_products_product"."userId" = $1`,
+      [user.id]
+    );
+
+    return productsData;
   }
 
   async findOne(): Promise<User | undefined> {

@@ -39,9 +39,10 @@ export class HandleProductResolver {
 
     const userProducts = await this.userService.handleProducts(
       session.userId,
-      productsData
+      productsData,
+      args.deleteAction
     );
 
-    return { products: userProducts.products };
+    return { products: userProducts };
   }
 }

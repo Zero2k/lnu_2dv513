@@ -58,6 +58,7 @@ type HandleProductResponse {
 }
 
 input HandleProductsInput {
+  deleteAction: Boolean!
   productIds: [Int!]!
 }
 

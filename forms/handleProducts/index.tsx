@@ -64,9 +64,13 @@ function HandleProductsForm({
 
   const onSubmit: SubmitHandler<ProductsFormValues> = async () => {
     const productIds = values.map((item) => parseInt(item.id.toString()));
+    let deleteAction: boolean = false;
+    if (userProducts) {
+      deleteAction = !!(userProducts.length >= values.length);
+    }
 
     const response = await handleProducts({
-      variables: { productIds },
+      variables: { productIds, deleteAction },
       update: async (cache, { data: { handleProducts } }) => {
         cache.writeQuery({
           query: ME_QUERY,

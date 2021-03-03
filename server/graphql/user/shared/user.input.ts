@@ -31,4 +31,7 @@ export class HandleProfile {
 export class HandleProductsInput {
   @Field(() => [Int])
   productIds: number[];
+
+  @Field(() => Boolean)
+  deleteAction: boolean;
 }
