@@ -42,6 +42,7 @@ export const ORDER_QUERY = gql`
       customerName
       customerEmail
       customerId
+      total
     }
   }
 `;

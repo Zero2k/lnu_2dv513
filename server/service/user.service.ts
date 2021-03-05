@@ -56,7 +56,6 @@ export class UserService {
     return userData;
   }
 
-  /* TODO:UPDATE WITH SQL */
   async handleProducts(
     id: number,
     products: Product[],
@@ -73,9 +72,12 @@ export class UserService {
 
     return userData; */
 
-    /* if (!user.active) {
-      TODO:SET USER TO ACTIVE
-    } */
+    if (!user.active) {
+      await getConnection().query(
+        `UPDATE "user" SET active = $2 WHERE "user"."id" = $1`,
+        [user.id, true]
+      );
+    }
 
     const ids = products.map((product) => product.id);
     if (deleteAction) {

@@ -24,8 +24,6 @@ const Order = () => {
     skip: Number.isNaN(getAsInt(id)),
   });
 
-  console.log(orderQuery);
-
   const [completeOrder] = useMutation(COMPLETE_ORDER_MUTATION);
   const { data, loading } = orderQuery;
   const [css, theme] = useStyletron();

@@ -1,16 +1,15 @@
 import { Service } from 'typedi';
-import { User } from '../entity/User';
+/* import { User } from '../entity/User'; */
 import { Order } from '../entity/Order';
 import { CreateOrderInput } from '../graphql/order/shared/order.input';
-import { Product } from '../entity/Product';
-import { OrderRow } from '../entity/OrderRow';
+/* import { Product } from '../entity/Product'; */
+/* import { OrderRow } from '../entity/OrderRow'; */
 import { getConnection } from 'typeorm';
 
 @Service()
 export class OrderService {
-  /* TODO:UPDATE WITH SQL */
   async create(input: CreateOrderInput): Promise<Order> {
-    const user = await User.findOne({ id: input.userId });
+    /* const user = await User.findOne({ id: input.userId });
     const products = await Product.findByIds(input.productIds);
 
     const order = await Order.create({
@@ -35,7 +34,43 @@ export class OrderService {
 
     const completeOrder = await order.save();
 
-    return completeOrder;
+    return completeOrder; */
+
+    const user = await getConnection().query(
+      `SELECT "user".* FROM "user" WHERE "user"."id" = $1`,
+      [input.userId]
+    );
+    const products = await getConnection().query(
+      `SELECT product.* FROM product WHERE product.id = ANY ($1)`,
+      [input.productIds]
+    );
+
+    /* CREATE ORDER */
+    const order = await getConnection().query(
+      `INSERT INTO "order" ("total", "customerId", "customerName", "customerEmail", "userId") VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [0, input.customerId, input.customerName, input.customerEmail, user[0].id]
+    );
+
+    /* CREATE ORDER_ROWS */
+    const quantity = 1;
+    let total = 0;
+    products.forEach(async (product) => {
+      total += product.price * quantity;
+      await getConnection().query(
+        `INSERT INTO "order_row" ("quantity", "amount", "productId", "orderId") VALUES ($1, $2, $3, $4)`,
+        [quantity, product.price, product.id, order[0].id]
+      );
+    });
+
+    /* RETURN COMPLETE ORDER */
+    if (order) {
+      const completeOrder = await getConnection().query(
+        `UPDATE "order" SET total = $2 WHERE "order"."id" = $1 RETURNING *`,
+        [order[0].id, total]
+      );
+
+      return completeOrder[0][0];
+    }
   }
 
   async findAllByUserId(id: number): Promise<Order[]> {
