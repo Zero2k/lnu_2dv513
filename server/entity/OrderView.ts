@@ -6,6 +6,17 @@ import { Product } from './Product';
 
 @ObjectType()
 @ViewEntity({
+  /* 
+  SELECT "order".id, 
+  order_row.id AS "rowId",
+  product.name AS "productName",
+  product.price,
+  sum(order_row.amount * order_row.quantity::double precision) AS cost
+  FROM "order" "order"
+    LEFT JOIN order_row order_row ON order_row."orderId" = "order".id
+    LEFT JOIN product product ON order_row."productId" = product.id
+  GROUP BY "order".id, order_row.id, product.name, product.price;
+  */
   expression: (connection: Connection) =>
     connection
       .createQueryBuilder()
